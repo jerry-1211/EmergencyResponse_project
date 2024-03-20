@@ -7,8 +7,8 @@
 이름 | 역할 | GitHub
 ---|-----|---
 김제림 | 개발 | [jerry-1211](https://github.com/jerry-1211)
-박세현 | 개발 | []()
-김소정 | 개발 | []()
+박세현 | 개발 | [pseheon](iamsh2012@naver.com)
+김소정 | 개발 | [SoJung21](00Kimsojung00@gmail.com )
 
 # 주제 및 기대효과
 
@@ -27,6 +27,11 @@
   2023년 10월 정부가 통과시킨 의대생 증원 법안으로 한국 의료 시스템은 심각한 위기에 직면해 있다. 또한 최근 증가하는 고령화 사회와 만성 질환 환자의 증가로 응급실 방문자 수가 급증하고 있지만, 환자들이 적절한 치료를 받기까지는 오랜 시간을 기다려야한다. Emergency Response 서비스는 응급환자에게 정리된 양질의 데이터를 제공하고, 의사에게는 환자의 응급상황 녹화본을 제공하여, 보다 정확한 진단을 내릴 수 있도록 해준다. 따라서 이러한 서비스는 환자와 의사 모두에게 수요가 높을 것으로 기대가 된다.
 
 
+# 프로젝트 구상도
+<img src="./image/구상도.png" width="50%" height="50%">
+<!-- ![프로젝트 구상도](./image/구상도.png){: width="10%" height="10%"} -->
+
+
 <!-- # 디렉토리 구조
 ```sh
 ├─Docs
@@ -38,6 +43,7 @@
 │  ├─RuleMate_Project
 │  ├─readme.md
 ```
+
 
 # Architecture
 ![image](https://user-images.githubusercontent.com/70702088/132844749-babb0e86-f55d-44a4-b17b-a5f45d1ba783.png)
