@@ -38,9 +38,9 @@
                 <div class="col-lg-6">
                     <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="display-1 lh-1 mb-3">SINGIN</h1>
+                        <h1 class="display-1 lh-1 mb-3">Login</h1>
                         <p class="lead fw-normal text-muted mb-5">
-                            Please signin our service to provide helpful things to you
+                            Please Login to use our service
                         </p>
                         {% block message %}
                         {% with messages = get_flashed_messages() %}
@@ -54,15 +54,11 @@
 
 
                 <!--회원 가입 -->
-                <form action="{{url_for('signin_done')}}" method="get">
-                    <input class="form-control" name="signin_name" id="signin_name" type="text"
-                        placeholder="Enter your name..." data-sb-validations="required" />
+                <form action="{{url_for('login_done')}}" method="get">
                     <input class="form-control" name="signin_id" id="signin_id" type="text"
                         placeholder="Enter your ID..." data-sb-validations="required" />
                     <input class="form-control" name="signin_pwd" id="signin_pwd" type="password"
                         placeholder="Enter your PW..." data-sb-validations="required" />
-                    <input class="form-control" name="signin_phoneNumber" id="signin_phoneNumber" type="number"
-                        placeholder="Enter your Phone number..." data-sb-validations="required" />
                     <button type="submit" class="signin btn btn-outline-primary rounded-pill">Signin</button>
                 </form>
                 <!--  -->
@@ -88,8 +84,4 @@
     </header>
     {% endblock content %}
 
-
-
 </body>
-
-</html>
