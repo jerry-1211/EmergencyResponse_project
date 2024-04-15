@@ -1,18 +1,32 @@
 <style>
     .masthead-device-mockup {
-        margin-top: -40%;
+        margin-top: -125%; 
     }
+    .form-control{
+        margin-top: 40px !important;
+    }
+    .btn.btn-outline-primary{
+        margin-top: 40px;
+    }
+    .doublecheck.lead.fw-normal{  
+        /* 아이디 중복일 경우 메시지 */
+        color: #2937f0 !important;
+        font-weight: bold !important;
+    }
+    .signin.btn.btn-outline-primary{
+        /* sigin 버튼 */
+        width: 100%;
+        font-weight: bold;
+    }
+
+  
 </style>
 
 
 <body>
     {% extends "base.html" %}
 
-
-
     {% block content %}
-
-
 
     </div>
 
@@ -26,20 +40,29 @@
                         <p class="lead fw-normal text-muted mb-5">
                             Please signin our service to provide helpful things to you
                         </p>
+                        {% block message %}
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <p class="doublecheck lead fw-normal text-muted mb-5">{{messages[0]}}</p>
+                        {% endif %}
+                        {% endwith %}
+                        {% endblock message %}
                     </div>
                 </div>
-
+        
 
                 <!--회원 가입 -->
-                <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                    data-sb-validations="required" />
-                <input class="form-control" id="name" type="text" placeholder="Enter your ID..."
-                    data-sb-validations="required" />
-                <input class="form-control" id="name" type="text" placeholder="Enter your PW..."
-                    data-sb-validations="required" />
-                <input class="form-control" id="name" type="text" placeholder="Enter your Phone number..."
-                    data-sb-validations="required" />
-
+                <form action="{{url_for('signin_done')}}" method="get">
+                    <input class="form-control" name="signin_name" id="signin_name" type="text" placeholder="Enter your name..."
+                        data-sb-validations="required" />
+                    <input class="form-control" name="signin_id" id="signin_id" type="text" placeholder="Enter your ID..."
+                        data-sb-validations="required" />
+                    <input class="form-control" name="signin_pwd" id="signin_pwd" type="password" placeholder="Enter your PW..."
+                        data-sb-validations="required" />
+                    <input class="form-control" name="signin_phoneNumber" id="signin_phoneNumber" type="number" placeholder="Enter your Phone number..."
+                        data-sb-validations="required" />
+                    <button type="submit" class="signin btn btn-outline-primary rounded-pill">Signin</button>
+                </form>
                 <!--  -->
 
 
