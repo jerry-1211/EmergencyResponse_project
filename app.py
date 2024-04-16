@@ -1,10 +1,35 @@
 from flask import Flask,redirect,render_template,url_for
 from flask import request,flash,session
+from flask import Response, stream_with_context
+
 from DB_handler import DBModule
+
+import warnings
+
+from streamer import Streamer
+
+warnings.filterwarnings("ignore")
+
 
 app = Flask(__name__)
 app.secret_key = "xcvbsdf@sdfvxcv"  # 아무렇게나 생성
+streamer = Streamer()
 DB = DBModule()
+
+
+def stream_gen( src ):   
+    try :         
+        streamer.run( src )
+        
+        while True :  
+            frame = streamer.bytescode()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                    
+    except GeneratorExit :
+        streamer.stop()
+
+
 
 @app.route("/")
 def index():    
@@ -57,7 +82,24 @@ def logout():
    else :
        return redirect(url_for("login"))
 
-    
+
+@app.route("/stream")
+def stream():
+    src = request.args.get( 'src', default = 0, type = int )
+
+    try :    
+        return Response(
+            stream_with_context( stream_gen( src ) ),
+            mimetype='multipart/x-mixed-replace; boundary=frame' )
+
+    except Exception as e :
+        pass
+
+@app.route("/detect")
+def detect():
+    user = session["uid"]
+    return render_template("detect.html",user=user)
+
 
 if __name__ == "__main__":
     app.run(port=5500,host="0.0.0.0",debug=True)
