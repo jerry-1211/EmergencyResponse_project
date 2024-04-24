@@ -26,7 +26,7 @@ class Streamer :
         self.Q = Queue(maxsize=128)  # 최대 비디오 프레임 저장 크기 (설정 안하면 무제한 요소 저장)
         self.started = False
         
-    def run(self, src = 0 ) :
+    def run(self, src ) :
         
         self.stop()  # 이전 실행 중인 비디오 스트리밍 작업 중단
     

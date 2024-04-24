@@ -29,8 +29,6 @@ def stream_gen( src ):
     except GeneratorExit :
         streamer.stop()
 
-
-
 @app.route("/")
 def index():    
     if "uid" in session : 
@@ -91,7 +89,6 @@ def stream():
         return Response(
             stream_with_context( stream_gen( src ) ),
             mimetype='multipart/x-mixed-replace; boundary=frame' )
-
     except Exception as e :
         pass
 
@@ -99,6 +96,11 @@ def stream():
 def detect():
     user = session["uid"]
     return render_template("detect.html",user=user)
+
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 
 if __name__ == "__main__":

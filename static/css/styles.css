@@ -11092,7 +11092,7 @@ footer a:hover, footer a:active, footer a:focus {
   position: absolute;
   fill: url(#circleGradient);
   width: 70%;
-  display: none;
+  /* display: none; */
 }
 .masthead .masthead-device-mockup .circle .gradient-start-color {
   stop-color: #2937f0;

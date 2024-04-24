@@ -11,6 +11,15 @@
     .h2.fs-1.text-white {
         line-height: 2;
     }
+
+    .videoFeed {
+        border-radius: 10px;
+    }
+
+    p.text-center.h3 {
+        font-size: 3rem;
+        margin-bottom: 40px;
+    }
 </style>
 
 <body id="page-top">
@@ -34,7 +43,7 @@
 
                 <!-- VIDEO -->
                 <!-- <div class="col-lg-6">
-                    <img id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
+                    <img class="videoFeed" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
                 </div> -->
 
             </div>
@@ -55,7 +64,7 @@
                         {{user}}님!! <br>
                         실시간으로 응급 상황을 확인중입니다.
                     </div>
-                    <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" />
+                    <!-- <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" /> -->
                 </div>
             </div>
         </div>
