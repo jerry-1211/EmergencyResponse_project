@@ -121,8 +121,6 @@ def board():
             city = request.form.get('city')
             district = request.form.get('district')
             info_address, info_hospital = DB.region(city, district)
-            print(info_address)
-            # print(jsonify({info_address}))
             return jsonify({
                 "user": user,
                 "city": city,
