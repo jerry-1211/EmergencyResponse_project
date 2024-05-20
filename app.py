@@ -29,15 +29,22 @@ def stream_gen( src ):
     except GeneratorExit :
         streamer.stop()
 
+# 로그인이 되지 않았을 경우 로그인 창으로 전환
+def get_user():
+    if "uid" in session:
+        return session["uid"]
+    else:
+        return redirect(url_for("login"))
+
+
 @app.route("/")
 def index():    
-    if "uid" in session : 
-        user = session["uid"]
-    else :
-        user = "Login"
-        return redirect(url_for("login"))
-    return render_template("index.html",user=user)
+    user = get_user()
+    if isinstance(user, str): 
+        return render_template("index.html", user=user)
+    return user  
 
+#------------------------------회원 가입 ------------------------------
 @app.route("/signin")
 def signin():
     return render_template("signin.html")
@@ -80,6 +87,8 @@ def logout():
    else :
        return redirect(url_for("login"))
 
+#------------------------------------------------------------
+
 
 @app.route("/stream")
 def stream():
@@ -94,8 +103,24 @@ def stream():
 
 @app.route("/detect")
 def detect():
-    user = session["uid"]
-    return render_template("detect.html",user=user)
+    user = get_user()
+    if isinstance(user, str): 
+        return render_template("detect.html",user=user)
+    return user  
+
+#------------------------------응급 상황판 ------------------------------
+
+@app.route("/board")
+def board():
+    user = get_user()
+    if isinstance(user, str): 
+        return render_template("board.html",user=user)
+    return user  
+        
+@app.route("/Emergencymap")
+def Emergencymap():
+    return render_template("map.html")
+
 
 
 @app.route("/test")

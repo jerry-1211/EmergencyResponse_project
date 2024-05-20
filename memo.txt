@@ -1,0 +1,1 @@
+# firebase Realtime base에서 read,write 값 true로 변경
