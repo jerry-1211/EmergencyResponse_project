@@ -38,3 +38,18 @@ class DBModule :
                     return False 
             except :
                 return False
+            
+
+    # 드롭다운에서 전달 받은 값들 호출
+    def region(self,city,district):
+        regions = self.db.child("region").get().val()
+        address = []
+        hospital = []
+        for reg in regions:
+            if reg["town"] == district : 
+                address.append(reg["address"])
+                hospital.append(reg["hospital"])
+        return address,hospital
+                
+
+        
