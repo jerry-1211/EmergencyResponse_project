@@ -1,4 +1,6 @@
-from flask import Flask,redirect,render_template,url_for
+import pandas as pd
+
+from flask import Flask,redirect,render_template,url_for,jsonify
 from flask import request,flash,session
 from flask import Response, stream_with_context
 
@@ -110,12 +112,27 @@ def detect():
 
 #------------------------------응급 상황판 ------------------------------
 
-@app.route("/board")
+@app.route("/board", methods=['GET', 'POST'])
 def board():
     user = get_user()
-    if isinstance(user, str): 
-        return render_template("board.html",user=user)
-    return user  
+    city = ''
+    if isinstance(user, str):
+        if request.method == 'POST':
+            city = request.form.get('city')
+            district = request.form.get('district')
+            info_address, info_hospital = DB.region(city, district)
+            return jsonify({
+                "user": user,
+                "city": city,
+                "district": district,
+                "info_address": info_address,
+                "info_hospital": info_hospital
+            })
+        else:
+            return render_template("board.html", user=user, city=None, district=None,
+                            info_address=None, info_hospital=None)
+    return user
+
         
 @app.route("/Emergencymap")
 def Emergencymap():
