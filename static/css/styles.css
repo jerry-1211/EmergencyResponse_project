@@ -7665,7 +7665,8 @@ textarea.form-control-lg {
 }
 
 .mb-4 {
-  margin-bottom: 1.5rem !important;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .mb-5 {
@@ -7754,8 +7755,8 @@ textarea.form-control-lg {
 }
 
 .px-5 {
-  padding-right: 3rem !important;
-  padding-left: 3rem !important;
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
 }
 
 .py-0 {

@@ -45,11 +45,10 @@ class DBModule :
         regions = self.db.child("region").get().val()
         address = []
         hospital = []
+        
         for reg in regions:
-            if reg["town"] == district : 
+            if reg["city"] == city and reg["town"] == district : 
                 address.append(reg["address"])
                 hospital.append(reg["hospital"])
         return address,hospital
                 
-
-        
