@@ -14,11 +14,22 @@
 
     .videoFeed {
         border-radius: 10px;
+        width: 70%;
+    }
+
+    @media (min-width: 992px) {
+        .videoFeed {
+            width: 100%;
+        }
     }
 
     p.text-center.h3 {
         font-size: 3rem;
         margin-bottom: 40px;
+    }
+
+    .row.gx-5.align-items-center .col-lg-6 .mb-5 {
+        margin-bottom: 2rem !important;
     }
 </style>
 
@@ -37,14 +48,20 @@
                     <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-center text-lg-start">
                         <h1 class="display-1 lh-1 mb-3">Emergency Detection</h1>
-
                     </div>
                 </div>
 
                 <!-- VIDEO -->
                 <!-- <div class="col-lg-6">
-                    <img class="videoFeed" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
+                    <img class="videoFeed mb-5" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
                 </div> -->
+
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-6 lh-1 mb-3">상태 감지 중 👀</h1>
+                    </div>
+                </div>
 
             </div>
         </div>
