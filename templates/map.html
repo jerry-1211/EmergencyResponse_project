@@ -61,42 +61,22 @@
 </head>
 
 <body>
-
+    
     <div class="folium-map" id="map_fc81966026e3f5f259f4f88a62234e8c"></div>
-    <div id="mapid" style="width: 100%; height: 600px;"></div>
-
-    <script>
-        $(document).ready(function () {
-            // folium 지도 초기화 스크립트
-            var map = L.map('mapid').setView([37.5665, 126.9780], 10);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            // 기존 folium map의 자바스크립트 객체를 window.map으로 설정
-            window.map = map;
-
-            // 메시지 수신 설정
-            window.addEventListener("message", function (event) {
-                if (event.data && event.data.lat && event.data.lon) {
-                    map.setView([event.data.lat, event.data.lon], event.data.zoom);
-                }
-            });
-        });
-    </script>
-
-
+  
 
 </body>
 <script>
 
 
+    //  초기 지도 세팅값 
     var map_fc81966026e3f5f259f4f88a62234e8c = L.map(
         "map_fc81966026e3f5f259f4f88a62234e8c",
         {
-            center: [36.321655, 127.378953],
+            //  수정값
+            center: [ 35.1595, 126.8526], 
             crs: L.CRS.EPSG3857,
-            zoom: 7,
+            zoom: 12,
             zoomControl: true,
             preferCanvas: false,
         }
@@ -14743,6 +14723,19 @@
                  </div>`,
         { "sticky": true }
     );
+
+
+window.map = map_fc81966026e3f5f259f4f88a62234e8c;
+
+// 부모 창으로부터 메시지를 수신하여 지도 업데이트
+window.addEventListener("message", function (event) {
+    if (event.data && event.data.lat && event.data.lon) {
+        console.log(event)
+        var map = window.map;
+        //  위도 ,경도 , zoom 확대
+        map.setView([event.data.lat, event.data.lon], 14);
+    }
+});
 
 </script>
 
