@@ -1,4 +1,11 @@
 <style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(to right, #f0f0f0, #dee5f6);
+
+    }
+
     .masthead {
         display: flex;
         flex-direction: column;
@@ -30,7 +37,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
     }
 
     .row.mb-3 {
@@ -46,14 +52,15 @@
         }
 
         .row.mb-3 {
-            max-width: 100%;
+            max-width: 98%;
         }
     }
+
     @media (min-width: 992px) {
-    .col-lg-6 {
-        width: 100% !important;
+        .col-lg-6 {
+            width: 100% !important;
+        }
     }
-}
 
     .form-select {
         text-align: center;
@@ -98,23 +105,20 @@
 
     #resultSection {
         margin-top: 60px;
+        width: 93%;
     }
+
+    .table_result {
+        justify-content: center;
+        display: flex;
+        width: 100%;
+    }
+
 
     .table.table-striped.table-hover {
         margin-top: 30px;
     }
 
-    .video-container {
-        display: flex;
-        justify-content: center;
-        /* 가로로 가운데 정렬 */
-        align-items: center;
-        /* 세로로 가운데 정렬 */
-        height: 300px;
-        /* 원하는 높이 */
-        background-color: #000;
-        /* 배경색 (필요에 따라 변경 가능) */
-    }
 
     .video-container {
         display: flex;
@@ -124,7 +128,7 @@
         /* 세로로 가운데 정렬 */
         height: 300px;
         /* 원하는 높이 */
-        background-color: white;
+        background: linear-gradient(to right, #f0f0f0, #dee5f6);
         /* 배경색 (필요에 따라 변경 가능) */
     }
 
@@ -148,6 +152,24 @@
         font-size: 1.5rem !important;
         line-height: 1.5;
         font-weight: 400;
+    }
+
+    .col-lg-8.order-lg-1.mb-5.mb-lg-0 .container-fluid.px-5 {
+        width: 70%;
+        margin-top: 40px;
+
+    }
+
+    @media (min-width: 768px) {
+        .row.gx-5 .col-md-6.mb-5 {
+            flex: 0 0 auto;
+            width: 80%;
+        }
+    }
+
+    .text-center p {
+        font-size: calc(1.3rem + 0.1vw);
+        color: #6c757d !important
     }
 </style>
 
@@ -522,7 +544,7 @@
                             "서울특별시 은평구": { lat: 37.6027, lon: 126.9292, zoom: 15 },
                             "서울특별시 종로구": { lat: 37.573050, lon: 126.979189, zoom: 15 },
                             "서울특별시 중구": { lat: 37.563716, lon: 126.99778, zoom: 15 },
-                            "서울특별시 중랑구": { lat: 37.6063, lon: 127.092, zoom: 15 }, 
+                            "서울특별시 중랑구": { lat: 37.6063, lon: 127.092, zoom: 15 },
                             // 부산광역시 
                             "부산광역시 기장군": { lat: 35.2448, lon: 129.222, zoom: 15 },
                             "부산광역시 남구": { lat: 35.1365, lon: 129.084, zoom: 15 },
@@ -757,20 +779,20 @@
 
             </script>
 
-            <div id="resultSection" class="hidden">
-
-                <h2>🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Address</th>
-                            <th>Hospital</th>
-                        </tr>
-                    </thead>
-                    <tbody id="infoCombined"></tbody>
-                </table>
+            <div class="table_result">
+                <div id="resultSection" class="hidden">
+                    <h2>🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Hospital</th>
+                            </tr>
+                        </thead>
+                        <tbody id="infoCombined"></tbody>
+                    </table>
+                </div>
             </div>
-
         </div>
 
 
@@ -817,46 +839,63 @@
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
                     <div class="container-fluid px-5">
-                        <p class="text-center h3 --bs-dark">사용법</p>
+                        <!-- <p class="text-center h3 --bs-dark">사용법</p> -->
                         <div class="row gx-5">
                             <div class="col-md-6 mb-5">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-phone icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Device Mockups</h3>
-                                    <p class="text-muted mb-0">Ready to use HTML/CSS device mockups, no Photoshop
-                                        required!</p>
+                                    <i class="bi-lungs icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">1. 기도 폐쇄 대응</h3>
+                                    <p>
+                                        등 부위를 3회 두드려 기침을 유도 </br>
+                                        하임리히법을 실시하여 이물질을 제거</br>
+                                        성공 후 산소를 제공하고 119에 신고
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-5">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Flexible Use</h3>
-                                    <p class="text-muted mb-0">Put an image, video, animation, or anything else in the
-                                        screen!</p>
+                                    <i class="bi-postcard-heart icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">2. 응급상황별 대응</h3>
+                                    <p class="text-muted mb-0">
+                                        호흡곤란: 반좌위 자세로 심리적 안정 취함</br>
+                                        저혈당 쇼크: 혈당을 올릴 수 있는 음식 제공</br>
+                                        골절: 척추 골절 시 움직않고 119에 신고</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-5 mb-md-0">
+
+                            <div class="col-md-6 mb-5">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-gift icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Free to Use</h3>
-                                    <p class="text-muted mb-0">As always, this theme is free to download and use for any
-                                        purpose!</p>
+                                    <i class="bi-emoji-dizzy icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">3. 뇌졸중 대응</h3>
+                                    <p class="text-muted mb-0">119에 연락하고 의료기관으로 신속히 이송
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5 ">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-activity icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">4. 심폐소생술 (CPR) 방법</h3>
+                                    <p class="text-muted mb-0">
+                                        환자의 반응을 확인하고 119에 신고 </br>
+                                        가슴 압박: 분당 100-120회</br> 일반인은 약 5cm 깊이로 30회</br>
+                                        인공호흡: 기도 개방 후 1초 동안 숨을 불어넣기
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Open Source</h3>
-                                    <p class="text-muted mb-0">Since this theme is MIT licensed, you can use it
-                                        commercially!</p>
+                                    <i class="bi-heart-pulse icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">5. 자동 심장 충격기 (AED) 사용법</h3>
+                                    <p class="text-muted mb-0">전원 켜기, 패드 부착, 심전도 분석 중 접촉 금지</br>
+                                        심장 충격 필요 시 버튼 누르고 심폐소생술 재개</p>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -864,7 +903,6 @@
             </div>
         </div>
     </section>
-
 
 
 

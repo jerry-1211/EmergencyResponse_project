@@ -130,7 +130,7 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: calc(1.325rem + 0.9vw);
+  font-size: calc(1.325rem + 0.4vw);
 }
 @media (min-width: 1200px) {
   h2, .h2 {
@@ -7670,7 +7670,7 @@ textarea.form-control-lg {
 }
 
 .mb-5 {
-  margin-bottom: 3rem !important;
+  margin-bottom: 6rem !important;
 }
 
 .mb-auto {
@@ -10809,9 +10809,7 @@ textarea.form-control-lg {
     display: grid !important;
   }
   .d-print-table {
-    display: table !important;
-  }
-  .d-print-table-row {
+    display: table !important;  
     display: table-row !important;
   }
   .d-print-table-cell {
@@ -10836,7 +10834,8 @@ html {
 }
 
 .bg-gradient-primary-to-secondary {
-  background: linear-gradient(45deg, #2937f0, #9f1ae2) !important;
+  /* background: linear-gradient(45deg, #2937f0, #9f1ae2) !important; */
+  background: linear-gradient(45deg, #3342FF, #E3ABB9) !important;
 }
 
 .font-alt {
@@ -10967,7 +10966,7 @@ section.cta:before {
 }
 
 .icon-feature {
-  font-size: 4rem;
+  font-size: 5rem
 }
 
 .features-device-mockup {
