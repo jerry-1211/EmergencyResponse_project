@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Map Selector</title>
+    <script>
+        function sendLocationToIframe() {
+            var selectedLocation = document.getElementById("location-select").value;
+            var iframe = document.getElementById("map-iframe");
+
+            if (selectedLocation === "gangnam") {
+                iframe.contentWindow.postMessage({
+                    lat: 37.6063,
+                    lon: 127.092,
+                    zoom: 15
+                }, '*');
+            }
+            // 다른 위치도 추가 가능
+        }
+
+        window.onload = function () {
+            document.getElementById("location-select").addEventListener("change", sendLocationToIframe);
+        };
+    </script>
+</head>
+
+<body>
+    <div style="margin: 20px;">
+        <label for="location-select">Choose a location:</label>
+        <select id="location-select">
+            <option value="">Select a location</option>
+            <option value="gangnam">Gangnam, Seoul</option>
+            <!-- 다른 위치 옵션 추가 가능 -->
+        </select>
+    </div>
+    <iframe id="map-iframe" src="map_test.html" style="width: 100%; height: 600px;"></iframe>
+</body>
+
+</html>
