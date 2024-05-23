@@ -12,11 +12,13 @@
 from flask import Flask
 from flask import request
 from flask import Response
-from flask import stream_with_context
+from flask import stream_with_context,render_template
+from flask import Flask, jsonify
 
 import time
 import cv2
 from vider_streamer import Streamer
+from firebase_recode import DBModule
 import datetime
 import os
 
@@ -24,28 +26,37 @@ import os
 
 app = Flask( __name__ )
 streamer = Streamer()
+firebase_recode = DBModule()
 
-@app.route('/stream')
-def stream():
-
-   
-    src = request.args.get( 'src', default = 0, type = int )
+@app.route("/")
+def index():    
     
-    try :
-        
-        return Response(
-                                stream_with_context( stream_gen( src ) ),
-                                mimetype='multipart/x-mixed-replace; boundary=frame' )
-        
-    except Exception as e :
-        
-        print('[wandlab] ', 'stream error : ',str(e))
+    return render_template("index.html")
+    
+
+
+
+@app.route('/video-urls', methods=['GET'])
+def video_urls():
+    urls = firebase_recode.video_get()
+    print(urls)
+    return jsonify(urls)
+
+
+# @app.route('/stream')
+# def stream():
+#     src = request.args.get( 'src', default = 0, type = int )
+#     try : 
+#         return Response(
+#             stream_with_context( stream_gen( src ) ),
+#             mimetype='multipart/x-mixed-replace; boundary=frame' )
+
+#     except Exception as e :
+#         print('[wandlab] ', 'stream error : ',str(e))
+
 
 def stream_gen( src ):   
-    
-    
-    try : 
-
+    try :
         # 비디오 녹화 컨트롤
         start_time = time.time() 
         recording = True
