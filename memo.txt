@@ -4,3 +4,6 @@
 # firebase storage 연습 테스트 완료
 # html 업로드 방법 연습 테스트 완료
 # 해당 방법들 블로그 작성하기
+
+
+#pip install -r requirements.txt (필요 라이브러리 설치)

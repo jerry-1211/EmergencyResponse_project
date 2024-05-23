@@ -30,12 +30,9 @@ firebase_recode = DBModule()
 
 @app.route("/")
 def index():    
-    
     return render_template("index.html")
     
-
-
-
+#-------------------firebase storage -------------------
 @app.route('/video-urls', methods=['GET'])
 def video_urls():
     urls = firebase_recode.video_get()
@@ -43,41 +40,36 @@ def video_urls():
     return jsonify(urls)
 
 
-# @app.route('/stream')
-# def stream():
-#     src = request.args.get( 'src', default = 0, type = int )
-#     try : 
-#         return Response(
-#             stream_with_context( stream_gen( src ) ),
-#             mimetype='multipart/x-mixed-replace; boundary=frame' )
+#-------------------video recode -------------------
 
-#     except Exception as e :
-#         print('[wandlab] ', 'stream error : ',str(e))
+@app.route('/stream')
+def stream():
+    src = request.args.get( 'src', default = 0, type = int )
+    try : 
+        return Response(
+            stream_with_context( stream_gen( src ) ),
+            mimetype='multipart/x-mixed-replace; boundary=frame' )
+
+    except Exception as e :
+        print('[wandlab] ', 'stream error : ',str(e))
 
 
 def stream_gen( src ):   
     try :
-        # 비디오 녹화 컨트롤
-        start_time = time.time() 
+        
+        # 비디오 녹화와 종류를 위한 변수
+        start_time = time.time()  
         recording = True
 
-        def create_new_video_writer():
-            dt_now = datetime.datetime.now()
-            dt_str = dt_now.strftime("%Y-%m-%d_%H시%M분%S초~")
-            file_name = str(dt_str)
-            
-            fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            out = cv2.VideoWriter(f"{file_name}.avi", fourcc, 20.0, (640, 480))
-            return out
-        out = create_new_video_writer()
-
-        streamer.run( src )
+        with streamer:  # context manager를 통해 __enter__ / __exit__  구현
+            out = streamer.get_filename()
+            streamer.run(src)
      
         while True :
            
             frame_byte,frame = streamer.bytescode()
 
-            # if 응급상황 : recording = True / fourcc = cv2.VideoWriter_fourcc(*'XVID') / out = create_new_video_writer()
+            # if 응급상황 : recording = True / out = streamer.get_filename()
 
             if recording:  # 비디오 저장 (여기 recording에 조건 걸기)
                 out.write(frame)
@@ -89,7 +81,6 @@ def stream_gen( src ):
                    b'Content-Type: image/jpeg\r\n\r\n' + frame_byte + b'\r\n')
                     
     except GeneratorExit :
-        #print( '[wandlab]', 'disconnected stream' )
         streamer.stop()
 
 

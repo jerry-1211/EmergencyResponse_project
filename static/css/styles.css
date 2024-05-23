@@ -642,6 +642,12 @@ progress {
   margin-left: auto;
 }
 
+@media (min-width: 460px) {
+  .container-sm, .container {
+    max-width: 420px;
+  }
+}
+
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
