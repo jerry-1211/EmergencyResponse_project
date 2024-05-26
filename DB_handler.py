@@ -1,6 +1,10 @@
+import firebase_admin
+from firebase_admin import credentials, storage
 import pyrebase
 import json
-import uuid
+from datetime import datetime, timedelta
+import os
+
 
 class DBModule : 
     def __init__(self):
@@ -52,3 +56,35 @@ class DBModule :
                 hospital.append(reg["hospital"])
         return address,hospital
                 
+
+class Storage :
+    def __init__(self):
+        if not firebase_admin._apps:
+            cred = credentials.Certificate("./auth/serviceAccountKey.json")
+            firebase_admin.initialize_app(cred, {
+              'storageBucket': 'emergencyresponse-b8c54.appspot.com',
+              'databaseURL': 'https://emergencyresponse-b8c54-default-rtdb.firebaseio.com/'  # Firebase Realtime Database URL
+            })
+        
+        with open("./auth/firebaseAuth.json") as f:
+            config = json.load(f)
+        self.firebase = pyrebase.initialize_app(config)
+        self.storage = self.firebase.storage()
+
+    # 카메라는 아직 안함
+    def video_save(self) :
+        self.storage.child("Video/recode/1.avi").put("1.avi","jerry")
+        return 0
+
+
+    def video_getUrl(self,uid):
+        bucket = storage.bucket()
+        blobs = bucket.list_blobs(prefix=f"Video/recode/{uid}")         
+        urls = []
+        filenames = []
+        for blob in blobs:
+            url = blob.generate_signed_url(timedelta(seconds=300))  # URL 생성
+            urls.append(url)
+            filename = os.path.basename(blob.name)
+            filenames.append(filename)
+        return urls[1:],filenames[1:]  # 더미 한개가 있어서 제외

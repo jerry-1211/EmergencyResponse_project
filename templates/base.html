@@ -31,6 +31,60 @@
 </head>
 
 
+
+<script>
+    // 서버에서 비디오 URL 받아오기
+    var userUID;
+    fetch('/user_uid')
+        .then(response => response.json())
+        .then(user_uid => {
+            userUID = user_uid;
+            console.log('Fetched  UID:', user_uid); // 디버깅용 콘솔 로그
+
+            // 받아온 user_uid 값을 a 태그의 href 속성에 삽입
+            var postLink = document.getElementById('uid');
+            postLink.href = `/videolist/${user_uid}`;
+
+            // userUID 값을 전역 변수로 설정한 후 이벤트 트리거
+            document.dispatchEvent(new CustomEvent('userUIDFetched', { detail: userUID }));
+
+        })
+        .catch(error => {
+            console.error('Error Fetched  UID:', error);
+        });
+
+</script>
+
+<style>
+    .nav-link-icon {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-link-icon .bi {
+        margin-right: 8px;
+    }
+
+    .nav-item-shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .nav-item-shadow:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    #mainNav {
+        transition: border-radius 1.2s ease;
+    }
+
+    .navbar-expanded {
+        border-radius: 0px 0px 20px 20px !important;
+    }
+</style>
+
+
 <body id="page-top">
 
     <!-- Navigation-->
@@ -44,13 +98,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" href="/"> <i
+                                class="bi bi-house-door"></i>HOME</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="/signin">SIGNIN</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="/detect">EMERGENCY DETECTION</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="#download">RECORD LIST</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="/logout">LOGOUT</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="/detect">DETECT</a></li>
                     <li class="nav-item"><a class="nav-link me-lg-3" href="/board">BOARD</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3" id="uid" href="#">RECODE</a></li>
                 </ul>
                 <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal"
                     data-bs-target="#feedbackModal">

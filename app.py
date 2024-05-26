@@ -1,10 +1,10 @@
 import pandas as pd
 
 from flask import Flask,redirect,render_template,url_for,jsonify
-from flask import request,flash,session
+from flask import request,flash,session,abort
 from flask import Response, stream_with_context
 
-from DB_handler import DBModule
+from DB_handler import DBModule,Storage
 
 import warnings
 
@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.secret_key = "xcvbsdf@sdfvxcv"  # 아무렇게나 생성
 streamer = Streamer()
 DB = DBModule()
+Storage = Storage()
 
 
 def stream_gen( src ):   
@@ -89,9 +90,9 @@ def logout():
    else :
        return redirect(url_for("login"))
 
-#------------------------------------------------------------
+#-----------------------------------------------------------------------
 
-
+#------------------------------비디오 녹화 ------------------------------
 @app.route("/stream")
 def stream():
     src = request.args.get( 'src', default = 0, type = int )
@@ -109,7 +110,7 @@ def detect():
     if isinstance(user, str): 
         return render_template("detect.html",user=user)
     return user  
-
+#-----------------------------------------------------------------------
 #------------------------------응급 상황판 ------------------------------
 
 @app.route("/board", methods=['GET', 'POST'])
@@ -138,12 +139,32 @@ def board():
 def Emergencymap():
     return render_template("map.html")
 
+#-----------------------------------------------------------------------
+#----------------------------- 비디오 기록 ------------------------------
+
+@app.route('/video-urls/<string:uid>', methods=['GET'])
+def video_urls(uid):
+    urls,filenames = Storage.video_getUrl(uid)
+    return jsonify(urls,filenames)
 
 
-@app.route("/test")
-def test():
-    return render_template("test.html")
+@app.route('/user_uid', methods=['GET'])
+def user_uid():
+    user = get_user()
+    if isinstance(user, str) and "uid" in session:
+        return jsonify(session["uid"])
+    return jsonify({"error": "Unauthorized"}), 403
 
+
+# uid까지 가져옴
+@app.route("/videolist/<string:uid>")
+def video_list(uid):
+    # 세션의 uid와 요청된 uid를 비교하여 일치하지 않으면 403 오류 반환
+    if "uid" not in session or session["uid"] != uid:
+        abort(403, description="Unauthorized access")
+
+    return render_template("videorecode.html", uid=uid)
+#-----------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(port=5500,host="0.0.0.0",debug=True)
