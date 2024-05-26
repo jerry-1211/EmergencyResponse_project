@@ -1,0 +1,153 @@
+<style>
+    .masthead .masthead-device-mockup .circle {
+        position: relative !important;
+    }
+
+    .col-lg-6 {
+        display: flex;
+        justify-content: center;
+    }
+
+    .h2.fs-1.text-white {
+        line-height: 2;
+    }
+
+    .videoFeed {
+        border-radius: 10px;
+        width: 70%;
+    }
+
+    @media (min-width: 992px) {
+        .videoFeed {
+            width: 100%;
+        }
+    }
+
+    p.text-center.h3 {
+        font-size: 3rem;
+        margin-bottom: 40px;
+    }
+
+    .row.gx-5.align-items-center .col-lg-6 .mb-5 {
+        margin-bottom: 2rem !important;
+    }
+</style>
+
+<body id="page-top">
+
+    {% extends "base.html" %}
+
+
+
+    {% block content %}
+    <!-- Mashead header-->
+    <header class="masthead">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-1 lh-1 mb-3">Emergency Detection</h1>
+                    </div>
+                </div>
+
+                <!-- VIDEO -->
+                <!-- <div class="col-lg-6">
+                    <img class="videoFeed mb-5" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
+                </div> -->
+
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-6 lh-1 mb-3">상태 감지 중 👀</h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    {% block message %}
+    {% endblock message %}
+
+    <!-- UID 세션 detection 카메라 나누기  -->
+
+    <!-- Quote/testimonial aside-->
+    <aside class="text-center bg-gradient-primary-to-secondary">
+        <div class="container px-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-xl-8">
+                    <div class="h2 fs-1 text-white mb-4">
+                        {{user}}님!! <br>
+                        실시간으로 응급 상황을 확인중입니다.
+                    </div>
+                    <!-- <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" /> -->
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- App features section-->
+    <section id="features">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
+                    <div class="container-fluid px-5">
+                        <p class="text-center h3 --bs-dark">사용법</p>
+                        <div class="row gx-5">
+                            <div class="col-md-6 mb-5">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-phone icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Device Mockups</h3>
+                                    <p class="text-muted mb-0">Ready to use HTML/CSS device mockups, no Photoshop
+                                        required!</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Flexible Use</h3>
+                                    <p class="text-muted mb-0">Put an image, video, animation, or anything else in the
+                                        screen!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-5 mb-md-0">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-gift icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Free to Use</h3>
+                                    <p class="text-muted mb-0">As always, this theme is free to download and use for any
+                                        purpose!</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Feature item-->
+                                <div class="text-center">
+                                    <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
+                                    <h3 class="font-alt">Open Source</h3>
+                                    <p class="text-muted mb-0">Since this theme is MIT licensed, you can use it
+                                        commercially!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+    {% endblock %}
+
+</body>

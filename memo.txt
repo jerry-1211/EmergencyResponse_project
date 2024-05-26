@@ -1,0 +1,22 @@
+# detect 기능 구현하기 
+# detect 부분 꾸미기
+# 영상 업로드 후 삭제 
+
+
+
+#pip install -r requirements.txt (가상 환경으로 필요 라이브러리 설치)
+
+
+modified:   DB_handler.py
+modified:   app.py
+modified:   memo.txt
+modified:   static/js/scripts.js
+modified:   templates/base.html
+modified:   templates/detect.html
+modified:   templates/index.html
+new file:   templates/videorecode.html
+
+
+# 새로운 환경일때 
+# -> serviceAccountKey.json 필요
+# -> h.264 코덱 환경 필요
