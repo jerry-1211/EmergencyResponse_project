@@ -7,9 +7,16 @@
 #pip install -r requirements.txt (가상 환경으로 필요 라이브러리 설치)
 
 
+modified:   DB_handler.py
+modified:   app.py
 modified:   memo.txt
-new file:   requirements.txt
-modified:   static/css/styles.css
-modified:   templates/board.html
-modified:   videoRecode_test/video_server.py
-modified:   videoRecode_test/vider_streamer.py
+modified:   static/js/scripts.js
+modified:   templates/base.html
+modified:   templates/detect.html
+modified:   templates/index.html
+new file:   templates/videorecode.html
+
+
+# 새로운 환경일때 
+# -> serviceAccountKey.json 필요
+# -> h.264 코덱 환경 필요

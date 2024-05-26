@@ -45,6 +45,13 @@
             var postLink = document.getElementById('uid');
             postLink.href = `/videolist/${user_uid}`;
 
+            if (userUID) {
+                document.getElementById('signin-item').style.display = 'none';
+            } else {
+                // userUID가 없을 경우 LOGOUT 항목 숨기기
+                document.getElementById('logout-item').style.display = 'none';
+            }
+
             // userUID 값을 전역 변수로 설정한 후 이벤트 트리거
             document.dispatchEvent(new CustomEvent('userUIDFetched', { detail: userUID }));
 
@@ -82,6 +89,13 @@
     .navbar-expanded {
         border-radius: 0px 0px 20px 20px !important;
     }
+
+    @media (min-width: 992px) {
+        .nav-link-icon .bi {
+            display: none;
+            /* 아이콘 숨기기 */
+        }
+    }
 </style>
 
 
@@ -100,13 +114,16 @@
                 <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
                     <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" href="/"> <i
                                 class="bi bi-house-door"></i>HOME</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/signin">SIGNIN</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/detect">EMERGENCY DETECTION</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#download">RECORD LIST</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/logout">LOGOUT</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/detect">DETECT</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="/board">BOARD</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" id="uid" href="#">RECODE</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" id="signin-item" href="/signin"><i
+                                class="bi bi-box-arrow-in-right"></i>SIGNIN</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" href="/detect"><i
+                                class="bi bi-camera-video"></i>DETECTION</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" href="/board"><i
+                                class="bi bi-pin-map"></i>BOARD</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" id="uid" href="#"><i
+                                class="bi bi-record2"></i>RECODE</a></li>
+                    <li class="nav-item"><a class="nav-link me-lg-3 nav-link-icon" id="logout-item" href="/logout"><i
+                                class="bi bi-box-arrow-in-left"></i>LOGOUT</a></li>
                 </ul>
                 <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal"
                     data-bs-target="#feedbackModal">
