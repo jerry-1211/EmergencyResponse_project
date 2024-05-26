@@ -2,47 +2,9 @@ import firebase_admin
 from firebase_admin import credentials, storage
 import pyrebase
 import json
-import uuid
 from datetime import datetime, timedelta
 
 class DBModule : 
-    def __init__(self):
-        if not firebase_admin._apps:
-            cred = credentials.Certificate("./auth/serviceAccountKey.json")
-            firebase_admin.initialize_app(cred, {
-              'storageBucket': 'emergencyresponse-b8c54.appspot.com',
-              'databaseURL': 'https://emergencyresponse-b8c54-default-rtdb.firebaseio.com/'  # Firebase Realtime Database URL
-            })
-
-        with open("./auth/firebaseAuth.json") as f:
-            config = json.load(f)
-        self.firebase = pyrebase.initialize_app(config)
-
-        self.db = self.firebase.database()
-        self.storage = self.firebase.storage()
-
-    def video_save(self) :
-        self.storage.child("Video/recode/jerim.avi").put("2024-05-23_19시19분28초~.avi","kcjerim")
-        firebase_url = self.storage.child("Video/recode/jerim.avi").get_url("kcjerim")
-        print(firebase_url)
-        return [firebase_url]
-    
-
-    def video_get(self):
-        bucket = storage.bucket()
-        blobs = bucket.list_blobs(prefix="Video/recode")         
-        urls = []
-        for blob in blobs:
-            url = blob.generate_signed_url(timedelta(seconds=300))  # URL 생성
-            urls.append(url)
-
-        return urls
-    
-
-
-
-    #----------------------------------------------------------------
-
     def signin(self,name,_id_,pwd,phoneNumber):
         informations = {
             "uname" : name,
@@ -86,4 +48,31 @@ class DBModule :
                 hospital.append(reg["hospital"])
         return address,hospital
     
-DBModule().video_get()
+
+class Storage :
+    def __init__(self):
+        if not firebase_admin._apps:
+            cred = credentials.Certificate("./auth/serviceAccountKey.json")
+            firebase_admin.initialize_app(cred, {
+              'storageBucket': 'emergencyresponse-b8c54.appspot.com',
+              'databaseURL': 'https://emergencyresponse-b8c54-default-rtdb.firebaseio.com/'  # Firebase Realtime Database URL
+            })
+        
+        with open("./auth/firebaseAuth.json") as f:
+            config = json.load(f)
+        self.firebase = pyrebase.initialize_app(config)
+        self.storage = self.firebase.storage()
+
+    def video_save(self) :
+        self.storage.child("Video/recode/1.avi").put("1.avi","jerry")
+        return 0
+
+    def video_getUrl(self):
+        bucket = storage.bucket()
+        blobs = bucket.list_blobs(prefix="Video/recode")         
+        urls = []
+        for blob in blobs:
+            url = blob.generate_signed_url(timedelta(seconds=300))  # URL 생성
+            urls.append(url)
+        return urls
+    

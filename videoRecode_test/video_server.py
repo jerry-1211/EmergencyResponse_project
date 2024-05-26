@@ -18,7 +18,7 @@ from flask import Flask, jsonify
 import time
 import cv2
 from vider_streamer import Streamer
-from firebase_recode import DBModule
+from firebase_recode import DBModule,Storage
 import datetime
 import os
 
@@ -26,7 +26,8 @@ import os
 
 app = Flask( __name__ )
 streamer = Streamer()
-firebase_recode = DBModule()
+DB = DBModule()
+STORAGE = Storage()
 
 @app.route("/")
 def index():    
@@ -35,7 +36,7 @@ def index():
 #-------------------firebase storage -------------------
 @app.route('/video-urls', methods=['GET'])
 def video_urls():
-    urls = firebase_recode.video_get()
+    urls = STORAGE.video_getUrl()
     print(urls)
     return jsonify(urls)
 
@@ -61,10 +62,9 @@ def stream_gen( src ):
         start_time = time.time()  
         recording = True
 
-        with streamer:  # context manager를 통해 __enter__ / __exit__  구현
-            out = streamer.get_filename()
-            streamer.run(src)
-     
+        out = streamer.get_filename()
+        streamer.run(src)
+    
         while True :
            
             frame_byte,frame = streamer.bytescode()

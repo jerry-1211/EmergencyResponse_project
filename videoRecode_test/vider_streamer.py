@@ -98,16 +98,13 @@ class Streamer :
     
     def get_filename(self):  # 비디오 파일이름 생성
         dt_now = datetime.datetime.now()
-        dt_str = dt_now.strftime("%Y-%m-%d_%H시%M분%S초~")
+        dt_str = dt_now.strftime("%Y년%m월%d일_%H시%M분%S초")
         file_name = str(dt_str)
         
-        fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-        out = cv2.VideoWriter(f"{file_name}.mp4", fourcc, 20.0, (640, 480))
+        fourcc = cv2.VideoWriter_fourcc(*'avc1') # 코덱 형식
+        out = cv2.VideoWriter(f"{dt_str}.mp4", fourcc, 20.0, (640, 480))
         return out
     
     def __enter__(self):
         return self
                    
-    def __exit__(self) :
-        print( '* streamer class exit')
-        self.capture.release()

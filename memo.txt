@@ -7,3 +7,11 @@
 
 
 #pip install -r requirements.txt (필요 라이브러리 설치)
+
+
+modified:   memo.txt
+new file:   requirements.txt
+modified:   static/css/styles.css
+modified:   templates/board.html
+modified:   videoRecode_test/video_server.py
+modified:   videoRecode_test/vider_streamer.py
