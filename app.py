@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 
 from flask import Flask,redirect,render_template,url_for,jsonify
 from flask import request,flash,session,abort
@@ -21,16 +22,37 @@ Storage = Storage()
 
 
 def stream_gen( src ):   
-    try :         
-        streamer.run( src )
-        
-        while True :  
-            frame = streamer.bytescode()
+    try :
+        user = get_user()
+        # 비디오 녹화와 종류를 위한 변수
+        start_time = time.time()  
+        recording = True
+
+        out,filename = streamer.get_filename()
+        streamer.run(src)
+    
+        while True :
+            frame_byte,frame = streamer.bytescode()
+            # if 응급상황 : recording = True / out = streamer.get_filename()
+
+            if recording:  # 비디오 저장 (여기 recording에 조건 걸기)
+                out.write(frame)
+                if time.time() - start_time > 10:
+                    print(f"{filename} {user}님 녹화완료")
+                    recording = False
+                    out.release()
+                    Storage.video_save(user=user,filename=filename)  # 녹화본 DB에 저장
+                    Storage.delete_all_files_in_directory() # 로컬 녹화본에 삭제
+
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame_byte + b'\r\n')
                     
     except GeneratorExit :
         streamer.stop()
+        if recording:
+            out.release()
+
+
 
 # 로그인이 되지 않았을 경우 로그인 창으로 전환
 def get_user():

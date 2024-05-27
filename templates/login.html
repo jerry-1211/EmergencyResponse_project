@@ -22,6 +22,17 @@
         width: 100%;
         font-weight: bold;
     }
+
+    .mt-7.signin.btn.btn-outline-primary.rounded-pill{
+        margin-top: 20px;
+    }
+
+    @media (min-width: 992px) {
+    .col-lg-6.sigin-wd {
+        width: 100%;
+        }
+    }
+
 </style>
 
 
@@ -37,15 +48,15 @@
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-6">
                     <!-- Mashead text and app badges-->
-                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="display-1 lh-1 mb-3">Login</h1>
-                        <p class="lead fw-normal text-muted mb-5">
+                    <div class="mb-3 mb-lg-0 text-center text-lg-start">
+                        <h1 class="do-hyeon-regular display-1 lh-1 mb-3">Login</h1>
+                        <p class="lead fw-normal text-muted mb-3">
                             Please Login to use our service
                         </p>
                         {% block message %}
                         {% with messages = get_flashed_messages() %}
                         {% if messages %}
-                        <p class="doublecheck lead fw-normal text-muted mb-5">{{messages[0]}}</p>
+                        <p class="do-hyeon-regular doublecheck lead fw-normal text-muted mb-5">{{messages[0]}}</p>
                         {% endif %}
                         {% endwith %}
                         {% endblock message %}
@@ -55,15 +66,19 @@
 
                 <!--회원 가입 -->
                 <form action="{{url_for('login_done')}}" method="get">
-                    <input class="form-control" name="signin_id" id="signin_id" type="text"
+                    <input class="do-hyeon-regular form-control" name="signin_id" id="signin_id" type="text"
                         placeholder="Enter your ID..." data-sb-validations="required" />
-                    <input class="form-control" name="signin_pwd" id="signin_pwd" type="password"
+                    <input class="do-hyeon-regular form-control" name="signin_pwd" id="signin_pwd" type="password"
                         placeholder="Enter your PW..." data-sb-validations="required" />
-                    <button type="submit" class="signin btn btn-outline-primary rounded-pill">Signin</button>
+                    <button type="submit" class="signin btn btn-outline-primary rounded-pill">Login</button>
                 </form>
-                <!--  -->
+                
+                <div class="col-lg-6 sigin-wd">
+                    <a href="{{ url_for('signin') }}" class="mt-7 signin btn btn-outline-primary rounded-pill">Signin</a>
+                </div>
+                
 
-
+                <!-- 기타 잡동사니 -->
                 <div class="col-lg-6">
                     <!-- Masthead device mockup feature-->
                     <div class="masthead-device-mockup">

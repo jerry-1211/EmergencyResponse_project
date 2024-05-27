@@ -113,7 +113,9 @@
         display: flex;
         width: 100%;
     }
-
+    .table.table-striped.table-hover .do-hyeon-regular{
+        font-weight: bold;
+    }
 
     .table.table-striped.table-hover {
         margin-top: 30px;
@@ -163,13 +165,25 @@
     @media (min-width: 768px) {
         .row.gx-5 .col-md-6.mb-5 {
             flex: 0 0 auto;
-            width: 80%;
+            width: 90%;
         }
     }
 
     .text-center p {
         font-size: calc(1.3rem + 0.1vw);
         color: #6c757d !important
+    }
+
+    @media (min-width: 992px) {
+        #emergencyMap {
+            width: 57vw;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        #emergencyMap {
+            width: 57vw;
+        }
     }
 </style>
 
@@ -185,7 +199,7 @@
     <!-- Mashead header-->
     <header class="masthead">
         <div class="container mt-5">
-            <h1 class="display-4 lh-1 mb-3">실시간 의료종합 상황판</h1>
+            <h1 class="do-hyeon-regular display-4 lh-1 mb-3">실시간 의료종합 상황판</h1>
         </div>
         <div class="col-lg-6">
             <iframe class="emergencyMap" id="emergencyMap" src="{{ url_for('Emergencymap') }}"></iframe>
@@ -790,15 +804,15 @@
 
             <div class="table_result">
                 <div id="resultSection" class="hidden">
-                    <h2>🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표</h2>
+                    <h2 class="do-hyeon-regular">🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표</h2>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Address</th>
-                                <th>Hospital</th>
+                                <th class="do-hyeon-regular">Address</th>
+                                <th class="do-hyeon-regular">Hospital</th>
                             </tr>
                         </thead>
-                        <tbody id="infoCombined"></tbody>
+                        <tbody class="font-alt" id="infoCombined"></tbody>
                     </table>
                 </div>
             </div>
@@ -808,7 +822,7 @@
     </header>
 
 
-
+    
 
     {% block message %}
     {% endblock message %}
@@ -854,8 +868,8 @@
                                 <!-- Feature item-->
                                 <div class="text-center">
                                     <i class="bi-lungs icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">1. 기도 폐쇄 대응</h3>
-                                    <p>
+                                    <h3 class="do-hyeon-regular font-alt">1. 기도 폐쇄 대응</h3>
+                                    <p class="do-hyeon-regular">
                                         등 부위를 3회 두드려 기침을 유도 </br>
                                         하임리히법을 실시하여 이물질을 제거</br>
                                         성공 후 산소를 제공하고 119에 신고
@@ -867,7 +881,7 @@
                                 <div class="text-center">
                                     <i class="bi-postcard-heart icon-feature text-gradient d-block mb-3"></i>
                                     <h3 class="font-alt">2. 응급상황별 대응</h3>
-                                    <p class="text-muted mb-0">
+                                    <p class="do-hyeon-regular text-muted mb-0">
                                         호흡곤란: 반좌위 자세로 심리적 안정 취함</br>
                                         저혈당 쇼크: 혈당을 올릴 수 있는 음식 제공</br>
                                         골절: 척추 골절 시 움직않고 119에 신고</p>
@@ -879,7 +893,7 @@
                                 <div class="text-center">
                                     <i class="bi-emoji-dizzy icon-feature text-gradient d-block mb-3"></i>
                                     <h3 class="font-alt">3. 뇌졸중 대응</h3>
-                                    <p class="text-muted mb-0">119에 연락하고 의료기관으로 신속히 이송
+                                    <p class="do-hyeon-regular text-muted mb-0">119에 연락하고 의료기관으로 신속히 이송
                                     </p>
                                 </div>
                             </div>
@@ -888,19 +902,19 @@
                                 <div class="text-center">
                                     <i class="bi-activity icon-feature text-gradient d-block mb-3"></i>
                                     <h3 class="font-alt">4. 심폐소생술 (CPR) 방법</h3>
-                                    <p class="text-muted mb-0">
+                                    <p class="do-hyeon-regular text-muted mb-0">
                                         환자의 반응을 확인하고 119에 신고 </br>
                                         가슴 압박: 분당 100-120회</br> 일반인은 약 5cm 깊이로 30회</br>
                                         인공호흡: 기도 개방 후 1초 동안 숨을 불어넣기
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-5 ">
                                 <!-- Feature item-->
                                 <div class="text-center">
                                     <i class="bi-heart-pulse icon-feature text-gradient d-block mb-3"></i>
                                     <h3 class="font-alt">5. 자동 심장 충격기 (AED) 사용법</h3>
-                                    <p class="text-muted mb-0">전원 켜기, 패드 부착, 심전도 분석 중 접촉 금지</br>
+                                    <p class="do-hyeon-regular text-muted mb-0">전원 켜기, 패드 부착, 심전도 분석 중 접촉 금지</br>
                                         심장 충격 필요 시 버튼 누르고 심폐소생술 재개</p>
                                 </div>
                             </div>

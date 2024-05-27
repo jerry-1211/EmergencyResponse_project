@@ -1,3 +1,4 @@
+import datetime
 import time
 import cv2
 import imutils
@@ -57,8 +58,7 @@ class Streamer :
             self.capture.release()  # 비디오 캡처 중지 및 연결 종료
             self.clear() # self.Q의 내용을 제거
             
-    def update(self):
-                    
+    def update(self):                    
         while True:
             if self.started :  # 비디오 스트리밍 시작될때 
                 (grabbed, frame) = self.capture.read()  
@@ -68,23 +68,19 @@ class Streamer :
                 if grabbed :  # 프레임 캡처 성공 시
                     self.Q.put(frame) # frame을 Q에 저장
                           
-    def clear(self):
-        
+    def clear(self):        
         with self.Q.mutex:  # mutex는 여러 스레드 동시 접근 못하도록 보호
             self.Q.queue.clear() # 큐 객체의 내부 리스크 queue 비움
             
     def read(self):
-
         return self.Q.get()  # 큐에서 가장 오래된 요소를 반환
     
-    def blank(self):
-        
+    def blank(self):        
         return np.ones(shape=[self.height, self.width, 3], dtype=np.uint8) # (높이,너비,채널)
     
     def bytescode(self):
         
-        if not self.capture.isOpened():  # 카메라가 열려있지 않은 경우
-            
+        if not self.capture.isOpened():  # 카메라가 열려있지 않은 경우            
             frame = self.blank() # 매서드를 호출하여 빈 이미지 생성 (카메라 작동 않을 때 디폴트 값)
 
         else :
@@ -105,19 +101,25 @@ class Streamer :
         # cv2.imencode()은 튜플로 반환되고 [0]은 성공여부, [1]은 인코딩 데이터 반환
         # .tobytes()를 사용해서 바이트 데이터로 반환
 
-    def fps(self):
-        
+    def fps(self):        
         self.current_time = time.time()
         self.sec = self.current_time - self.preview_time
         self.preview_time = self.current_time
         
         if self.sec > 0 :
-            fps = round(1/(self.sec),1)
-            
+            fps = round(1/(self.sec),1)            
         else :
-            fps = 1
-            
+            fps = 1            
         return fps
+    
+    def get_filename(self):  # 비디오 파일이름 생성
+        dt_now = datetime.datetime.now()
+        dt_str = dt_now.strftime("%Y년%m월%d일_%H시%M분%S초")
+        file_name = "응급상황녹화_" + str(dt_str)
+        
+        fourcc = cv2.VideoWriter_fourcc(*'avc1') # 코덱 형식
+        out = cv2.VideoWriter(f"videoRecode_tmp/{file_name}.mp4", fourcc, 20.0, (640, 480))
+        return out,file_name
                    
     def __exit__(self) :
         print( '* streamer class exit')

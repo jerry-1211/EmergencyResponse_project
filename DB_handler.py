@@ -4,7 +4,7 @@ import pyrebase
 import json
 from datetime import datetime, timedelta
 import os
-
+import shutil
 
 class DBModule : 
     def __init__(self):
@@ -71,20 +71,34 @@ class Storage :
         self.firebase = pyrebase.initialize_app(config)
         self.storage = self.firebase.storage()
 
-    # 카메라는 아직 안함
-    def video_save(self) :
-        self.storage.child("Video/recode/1.avi").put("1.avi","jerry")
+    def video_save(self,user,filename) :
+        self.storage.child(f"Video/recode/{user}/{filename}.mp4").put(f"videoRecode_tmp/{filename}.mp4",f"{user}")
+        print(f"{filename} {user}님 DB 저장")
+        return 0
+
+    # 로컬 녹화본 삭제    
+    def delete_all_files_in_directory(self,directory="./videoRecode_tmp"):
+        if os.path.exists(directory) and os.path.isdir(directory):
+            for filename in os.listdir(directory):
+                file_path = os.path.join(directory, filename)
+                try:
+                    if os.path.isfile(file_path):
+                        os.remove(file_path)
+                        print(f"{file_path} 파일이 삭제되었습니다.")
+                except Exception:
+                    pass
         return 0
 
 
     def video_getUrl(self,uid):
         bucket = storage.bucket()
-        blobs = bucket.list_blobs(prefix=f"Video/recode/{uid}")         
+        blobs = bucket.list_blobs(prefix=f"Video/recode/{uid}/")         
         urls = []
         filenames = []
         for blob in blobs:
-            url = blob.generate_signed_url(timedelta(seconds=300))  # URL 생성
-            urls.append(url)
             filename = os.path.basename(blob.name)
-            filenames.append(filename)
-        return urls[1:],filenames[1:]  # 더미 한개가 있어서 제외
+            if filename and '.' in filename:  # 파일 이름이 의미 있는 경우에만 처리
+                url = blob.generate_signed_url(timedelta(seconds=300))  # URL 생성
+                urls.append(url)
+                filenames.append(filename)
+        return urls,filenames

@@ -1,4 +1,18 @@
 <style>
+    aside, section {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+@media (min-width: 992px) {
+    .col-lg-8 {
+        width: 81.666667% !important;
+    }
+}
+    .text_size1.text-muted{
+        font-size: 20px;
+        margin-top: 20px;
+    }
     .masthead .masthead-device-mockup .circle {
         position: relative !important;
     }
@@ -31,6 +45,35 @@
     .row.gx-5.align-items-center .col-lg-6 .mb-5 {
         margin-bottom: 2rem !important;
     }
+
+    .masthead {
+    padding-bottom: 3rem !important;
+    }
+
+    @media (min-width: 992px) {
+        .col-lg-6.move-left {
+            justify-content:flex-start;
+        }
+        .col-lg-6.move-up {
+            margin-top: -113px;
+        }
+        .masthead {
+            padding-bottom: 5rem !important;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .col-lg-6.move-left {
+            justify-content:flex-start;
+        }
+        .col-lg-6.move-up {
+            margin-top: -123px;
+        }
+        .masthead {
+            padding-bottom: 5rem !important;
+        }
+    }
+
 </style>
 
 <body id="page-top">
@@ -44,22 +87,22 @@
     <header class="masthead">
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
-                <div class="col-lg-6">
+                <div class="col-lg-6 move-up">
                     <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="display-1 lh-1 mb-3">Emergency Detection</h1>
+                        <h1 class="do-hyeon-regular display-1 lh-1 mb-3">Emergency Detection</h1>
                     </div>
                 </div>
 
                 <!-- VIDEO -->
-                <!-- <div class="col-lg-6">
-                    <img class="videoFeed mb-5" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
-                </div> -->
-
                 <div class="col-lg-6">
+                    <img class="videoFeed mb-5" id="videoFeed" src="{{ url_for('stream') }}" width="400" height="400" />
+                </div>
+
+                <div class="col-lg-6 move-left move-up">
                     <!-- Mashead text and app badges-->
-                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="display-6 lh-1 mb-3">상태 감지 중 👀</h1>
+                    <div class="mb-5 mb-lg-0 text-start">
+                        <h1 class="display-6 lh-1 mb-3 mt-4">상태 감지 중 👀</h1>
                     </div>
                 </div>
 
@@ -78,8 +121,8 @@
             <div class="row gx-5 justify-content-center">
                 <div class="col-xl-8">
                     <div class="h2 fs-1 text-white mb-4">
-                        {{user}}님!! <br>
-                        실시간으로 응급 상황을 확인중입니다.
+                        {{user}}님, <br>
+                        현재 실시간 응급 상태를 모니터링 중입니다 🚨
                     </div>
                     <!-- <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" /> -->
                 </div>
@@ -87,29 +130,33 @@
         </div>
     </aside>
     <!-- App features section-->
-    <section id="features">
+    <section class="mb-5" id="features">
         <div class="container px-5">
-            <div class="row gx-5 align-items-center">
+            <div class="row gx-5 align-items-center justify-content-center">
                 <div class="col-lg-8 order-lg-1 mb-5 mb-lg-0">
                     <div class="container-fluid px-5">
-                        <p class="text-center h3 --bs-dark">사용법</p>
+                        <p class="do-hyeon-regular font-color1 text-center h3 --bs-dark mt-4">주요 기능</p>
                         <div class="row gx-5">
                             <div class="col-md-6 mb-5">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-phone icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Device Mockups</h3>
-                                    <p class="text-muted mb-0">Ready to use HTML/CSS device mockups, no Photoshop
-                                        required!</p>
+                                    <i class="bi-webcam icon-feature text-gradient d-block mb-3"></i>
+                                    <h1 class="font-alt">일상 CCTV </h1>
+                                    <p class="text_size1 text-muted mb-0">
+                                        일상 생활에서 응급 상황 발생 시</br>
+                                        대상자를 보호하기 위한 서비스입니다.
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-5">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Flexible Use</h3>
-                                    <p class="text-muted mb-0">Put an image, video, animation, or anything else in the
-                                        screen!</p>
+                                    <i class="bi-person-bounding-box icon-feature text-gradient d-block mb-3"></i>
+                                    <h1 class="font-alt">응급 상황 인식</h1>
+                                    <p class="text_size1 text-muted mb-0">
+                                        카메라를 통해 실시간으로 </br>
+                                        응급 상황을 감지하고 판단합니다.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -117,19 +164,17 @@
                             <div class="col-md-6 mb-5 mb-md-0">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-gift icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Free to Use</h3>
-                                    <p class="text-muted mb-0">As always, this theme is free to download and use for any
-                                        purpose!</p>
+                                    <i class="bi-record-circle icon-feature text-gradient d-block mb-3"></i>
+                                    <h1 class="font-alt">응급 상황 녹화</h1>
+                                    <p class="text_size1 text-muted mb-0">응급 상황이 감지되면</br>자동으로 녹화하여 상황을 기록합니다.</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <!-- Feature item-->
                                 <div class="text-center">
-                                    <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">Open Source</h3>
-                                    <p class="text-muted mb-0">Since this theme is MIT licensed, you can use it
-                                        commercially!</p>
+                                    <i class="bi-chat-text icon-feature text-gradient d-block mb-3"></i>
+                                    <h1 class="font-alt">보호자에게 연락</h1>
+                                    <p class="text_size1 text-muted mb-0">응급 상황 발생 시</br>등록된 보호자에게 즉시 연락을 취합니다.</p>
                                 </div>
                             </div>
                         </div>
