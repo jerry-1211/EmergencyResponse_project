@@ -61,9 +61,9 @@
 </head>
 
 <body>
-    
+
     <div class="folium-map" id="map_fc81966026e3f5f259f4f88a62234e8c"></div>
-  
+
 
 </body>
 <script>
@@ -74,7 +74,7 @@
         "map_fc81966026e3f5f259f4f88a62234e8c",
         {
             //  수정값
-            center: [ 35.1595, 126.8526], 
+            center: [35.1595, 126.8526],
             crs: L.CRS.EPSG3857,
             zoom: 12,
             zoomControl: true,
@@ -14725,17 +14725,17 @@
     );
 
 
-window.map = map_fc81966026e3f5f259f4f88a62234e8c;
+    window.map = map_fc81966026e3f5f259f4f88a62234e8c;
 
-// 부모 창으로부터 메시지를 수신하여 지도 업데이트
-window.addEventListener("message", function (event) {
-    if (event.data && event.data.lat && event.data.lon) {
-        console.log(event)
-        var map = window.map;
-        //  위도 ,경도 , zoom 확대
-        map.setView([event.data.lat, event.data.lon], 14);
-    }
-});
+    // 부모 창으로부터 메시지를 수신하여 지도 업데이트
+    window.addEventListener("message", function (event) {
+        if (event.data && event.data.lat && event.data.lon) {
+            console.log(event)
+            var map = window.map;
+            //  위도 ,경도 , zoom 확대
+            map.setView([event.data.lat, event.data.lon], 14);
+        }
+    });
 
 </script>
 

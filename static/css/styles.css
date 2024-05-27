@@ -11121,8 +11121,8 @@ footer a:hover, footer a:active, footer a:focus {
 }
 .masthead .masthead-device-mockup .shape-2 {
   position: absolute;
-  height: 0.75rem;
-  width: 0.75rem;
+  height: 1rem;
+  width: 1rem;
   fill: #2937f0;
   top: 15%;
   right: 10%;
