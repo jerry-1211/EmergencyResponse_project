@@ -16,7 +16,7 @@ processor_class  = processor()
 
 """
 
-class NaverSearchApi:
+class searchApi:
     def __init__(self):
 
         # 응급상황 데이터 호출
@@ -48,6 +48,7 @@ class NaverSearchApi:
         road_address = []
         road_mapx = []
         road_mapy = []
+        hospital_link = []
 
         for idx,hospital in enumerate(self.hostpital_info["dutyName"]):
             hospital = self.hostpital_info["city"][idx]  +" "+ hospital
@@ -57,31 +58,36 @@ class NaverSearchApi:
                 address = search["items"][0]["roadAddress"]
                 mapx = float(search["items"][0]["mapx"][:3] +"." +  search["items"][0]["mapx"][3:]) # 경도
                 mapy = float(search["items"][0]["mapy"][:2] +"." +  search["items"][0]["mapy"][2:]) # 위도
+                link = search["items"][0]["link"]
                 
                 road_address.append(address)
                 road_mapy.append(mapy)
                 road_mapx.append(mapx)
+                hospital_link.append(link)
             
             except : 
                     road_address.append(None)
                     road_mapy.append(None)
                     road_mapx.append(None)
+                    hospital_link.append(None)
 
-        return road_address,road_mapx,road_mapy
+        return road_address,road_mapx,road_mapy,hospital_link
     
 
     # 기존 응급상황 병원 데이터에  위치데이터 추가
     def save_location(self):
-        road_address,road_mapx,road_mapy = self.get_location()
+        road_address,road_mapx,road_mapy,hospital_link = self.get_location()
 
-        tmp = pd.DataFrame([road_address,road_mapx,road_mapy],index=["address","mapx","mapy"]).transpose()
+        tmp = pd.DataFrame(
+             {"address" : road_address,
+              "mapx" : road_mapx,
+              "mapy" : road_mapy,
+              "hospital_link" : hospital_link
+               }
+            )
         df = pd.concat([self.hostpital_info,tmp],axis=1)
 
 
         df.dropna(subset=['address'], inplace=True) # address의 결측치만 제거
         df.to_csv("EmergencyData/emergency_data.csv",index=False)  # 병원별 위치 저장 
 
-
-    
-NaverSearchApi = NaverSearchApi()
-NaverSearchApi.save_location()
