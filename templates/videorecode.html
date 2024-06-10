@@ -1,0 +1,212 @@
+<style>
+    .small {
+        font-size: 1.2em !important;
+    }
+
+    .fw-bolder.mb-2.title_color {
+        color: #2937f0;
+    }
+
+    aside,
+    section {
+        padding-top: 3rem !important;
+
+    }
+
+    .d-flex.flex-column.h-100.bg-light {
+        height: 90%;
+    }
+
+    .container.px-5.my-5 .text-center.mt-5 {
+        margin-top: 8rem !important;
+    }
+
+    .d-flex.align-items-center.justify-content-center.mb-4 .fw-bolder {
+        font-size: 45px;
+    }
+
+    .center-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .fw-bolder {
+        color: linear-gradient(45deg, #3342FF, #E3ABB9);
+        font-weight: 400 !important;
+        font-size: 32px;
+    }
+
+    @media (min-width: 992px) {
+        .text-gradient.fw-bolder.mt-5 {
+            margin-top: 6rem !important;
+        }
+    }
+
+    .video-thumbnail {
+        width: 100%;
+        height: 40px;
+        display: inline-block;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        background-color: #ccc;
+        display: flex;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .video-thumbnail:hover {
+        transform: scale(1.05);
+        background-color: #bbb;
+    }
+
+    .video-player {
+        width: 100%;
+        height: auto;
+        display: none;
+        margin-top: 20px;
+    }
+
+    .video-player video {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<script>
+    let currentThumbnail = null;
+    document.addEventListener('userUIDFetched', (event) => {
+        const userUID = event.detail;
+        fetch(`/video-urls/${userUID}`)
+            .then(response => response.json())
+            .then(videoUrls => {
+                console.log('Fetched video URLs:', videoUrls[0]); // 디버깅용 콘솔 로그
+                console.log('Fetched video URLs:', videoUrls[1]);
+                if (Array.isArray(videoUrls[0])) { // videoUrls가 배열인지 확인
+                    const gallery = document.getElementById('video-gallery');
+                    videoUrls[0].forEach((url, index) => {
+                        const thumbnail = document.createElement('div');
+                        thumbnail.className = 'video-thumbnail';
+                        thumbnail.innerText = ` ${videoUrls[1][index]}`;
+                        thumbnail.addEventListener('click', () => playVideo(url, thumbnail));
+                        gallery.appendChild(thumbnail);
+                    });
+                } else {
+                    console.error('Fetched data is not an array:', videoUrls[0]);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching video URLs:', error); // 에러 디버깅용 콘솔 로그
+            });
+    });
+    // 비디오 재생 함수
+    function playVideo(url, thumbnail) {
+        const videoPlayer = document.getElementById('video-player');
+        const video = document.getElementById('video');
+        const videoSource = document.getElementById('video-source');
+
+        if (currentThumbnail === thumbnail) {
+            videoPlayer.style.display = 'none';
+            currentThumbnail = null;
+            return;
+        }
+
+
+        videoSource.src = url;
+        video.load();
+
+        // 현재 비디오 플레이어가 있는 위치에서 제거
+        if (videoPlayer.parentNode) {
+            videoPlayer.parentNode.removeChild(videoPlayer);
+        }
+
+        // 비디오 플레이어를 클릭된 썸네일 뒤에 삽입
+        if (thumbnail.nextSibling) {
+            thumbnail.parentNode.insertBefore(videoPlayer, thumbnail.nextSibling);
+        } else {
+            thumbnail.parentNode.appendChild(videoPlayer);
+        }
+
+        videoPlayer.style.display = 'block';
+        currentThumbnail = thumbnail;
+
+    }
+
+</script>
+
+<body class="d-flex flex-column h-100 bg-light">
+    {% extends "base.html" %}
+
+    {% block content %}
+    <main class="flex-shrink-0">
+
+        <!-- Page Content-->
+        <div class="container px-5 my-5">
+
+
+            <div class="row gx-5 justify-content-center">
+
+                <div class="col-lg-11 col-xl-9 col-xxl-8">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <h2 class="text-gradient fw-bolder mt-5">Emergency Recode</h2>
+                    </div>
+                    <section>
+                        <div class="card shadow border-0 rounded-4 mb-5">
+                            <div class="card-body p-5">
+                                <div class="row align-items-center gx-5">
+                                    <div class="col text-center text-lg-start mb-4 mb-lg-0">
+                                        <div class="bg-light p-4 rounded-4">
+
+                                            <div class="fw-bolder mb-2 title_color">{{uid}}님의 응급상황 녹화🎞️</div>
+
+                                            <div id="video-gallery">
+                                                <!-- 비디오 썸네일이 여기에 동적으로 추가 -->
+                                            </div>
+                                            <div class="video-player" id="video-player">
+                                                <video id="video" controls>
+                                                    <source id="video-source" src="" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+
+                                            <div class="mt-4 mb-2 text-center">
+                                                <div class="small fw-bolder">생명을 구하는 소중한 기록</div>
+                                                <div class="small text-muted">위기 순간을 포착해드립니다!</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="center-button-container mt-3">
+                                    <a class="btn btn-primary px-4 py-3" href="{{url_for('index')}}">
+                                        <div class="d-inline-block bi bi-house-door me-2"></div>
+                                        HOME으로 가기
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- Divider-->
+                    <div class="pb-5"></div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock content %}
+
+
+
+
+</body>
+
+</html>

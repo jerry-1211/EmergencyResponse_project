@@ -1,0 +1,27 @@
+# detect 기능 구현완료
+# detect css 완료
+# 부분 css 수정 및 버그 수정 (더미 url)
+# sigin 부분 로그인 할때 추가
+
+
+# 해야 할 일
+# 딥러닝 모델 (mobilenet/yolo)
+# 카카오 메세지 api
+# folium 데이터 추가 (응급병동)
+
+#pip install -r requirements.txt (가상 환경으로 필요 라이브러리 설치)
+
+
+modified:   DB_handler.py
+modified:   app.py
+modified:   memo.txt
+modified:   static/js/scripts.js
+modified:   templates/base.html
+modified:   templates/detect.html
+modified:   templates/index.html
+new file:   templates/videorecode.html
+
+
+# 새로운 환경일때 
+# -> serviceAccountKey.json 필요
+# -> h.264 코덱 환경 필요
