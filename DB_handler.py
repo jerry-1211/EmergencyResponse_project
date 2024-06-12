@@ -73,24 +73,43 @@ class DBModule :
         return 0
 
 
-############################################################################################################
-###########################################################################################################
     # 드롭다운에서 전달 받은 값들 호출    
     def emergencyData(self,city,district):
+
+        list_names = [
+            'address', 'hospital', 'tel', 'hospital_link', 'hvamyn',
+            'hvec', 'hvgc', 'hvmriayn', 'hvoc', 'hvventiayn'
+        ]
+
+        # 사전(dictionary)을 사용하여 빈 리스트를 생성
+        lists = {name: [] for name in list_names}
+
+        # 개별 리스트에 접근할 때는 다음과 같이 사용
+        address = lists['address']
+        hospital = lists['hospital']
+        tel = lists['tel']
+        hospital_link = lists['hospital_link']
+        hvamyn = lists['hvamyn']
+        hvec = lists['hvec']
+        hvgc = lists['hvgc']
+        hvmriayn = lists['hvmriayn']
+        hvoc = lists['hvoc']
+        hvventiayn = lists['hvventiayn']
+
         emergency_data = self.db.child("emergency_data").get().val()
-        print(emergency_data)
-        address = []
-        hospital = []
-        
-        # for reg in regions:
-        #     if reg["city"] == city and reg["town"] == district : 
-        #         address.append(reg["address"])
-        #         hospital.append(reg["hospital"])
-        # return address,hospital
-############################################################################################################
-############################################################################################################
-#-----------------------------------------------------------------------
-#                 
+        for data in emergency_data:
+            if data["city"] == city and data["district"] == district:
+                address.append(data["address"])
+                hospital.append(data["dutyName"])
+                tel.append(data["dutyTel3"])
+                hospital_link.append(data["hospital_link"])
+                hvamyn.append(data["hvamyn"])
+                hvec.append(data["hvec"])
+                hvgc.append(data["hvgc"])
+                hvmriayn.append(data["hvmriayn"])
+                hvoc.append(data["hvoc"])
+                hvventiayn.append(data["hvventiayn"])
+        return lists             
 
 class Storage :
     def __init__(self):
@@ -138,5 +157,6 @@ class Storage :
                 filenames.append(filename)
         return urls,filenames
 
-db = DBModule()
-db.emergencyData("제주","제주시")
+# db = DBModule()
+# db.emergencyData("제주","제주시")
+

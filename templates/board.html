@@ -113,7 +113,8 @@
         display: flex;
         width: 100%;
     }
-    .table.table-striped.table-hover .do-hyeon-regular{
+
+    .table.table-striped.table-hover .do-hyeon-regular {
         font-weight: bold;
     }
 
@@ -361,7 +362,7 @@
                         ];
                     } else if (city === '세종') {
                         exampleOptions = [
-                        { value: "세종시", text: "세종시" }
+                            { value: "세종시", text: "세종시" }
                         ]
                     } else if (city === '강원') {
                         exampleOptions = [
@@ -788,12 +789,51 @@
 
                             data.info_address.forEach(function (address, index) {
                                 var row = document.createElement('tr');
-                                var addressCell = document.createElement('td');
+
                                 var hospitalCell = document.createElement('td');
-                                addressCell.textContent = address;
                                 hospitalCell.textContent = data.info_hospital[index];
-                                row.appendChild(addressCell);
                                 row.appendChild(hospitalCell);
+
+                                var addressCell = document.createElement('td');
+                                addressCell.textContent = address;
+                                row.appendChild(addressCell);
+
+                                var telCell = document.createElement('td');
+                                telCell.textContent = data.info_tel[index];
+                                row.appendChild(telCell);
+
+                                var linkCell = document.createElement('td');
+                                var link = document.createElement('a');
+                                link.href = data.info_hospital_link[index];
+                                link.textContent = 'url';
+                                link.target = '_blank'; // 새 탭에서 링크 열기
+                                linkCell.appendChild(link);
+                                row.appendChild(linkCell);
+
+                                var hvecCell = document.createElement('td');
+                                hvecCell.textContent = data.info_hvec[index];
+                                row.appendChild(hvecCell);
+
+                                var hvocCell = document.createElement('td');
+                                hvocCell.textContent = data.info_hvoc[index];
+                                row.appendChild(hvocCell);
+
+                                var hvgcCell = document.createElement('td');
+                                hvgcCell.textContent = data.info_hvgc[index];
+                                row.appendChild(hvgcCell);
+
+                                var hvamynCell = document.createElement('td');
+                                hvamynCell.textContent = data.info_hvamyn[index];
+                                row.appendChild(hvamynCell);
+
+                                var hvmriaynCell = document.createElement('td');
+                                hvmriaynCell.textContent = data.info_hvmriayn[index];
+                                row.appendChild(hvmriaynCell);
+
+                                var hvventiaynCell = document.createElement('td');
+                                hvventiaynCell.textContent = data.info_hvventiayn[index];
+                                row.appendChild(hvventiaynCell);
+
                                 infoCombinedList.appendChild(row);
                             });
                             // 데이터를 업데이트한 후 결과 섹션 표시
@@ -808,12 +848,21 @@
 
             <div class="table_result">
                 <div id="resultSection" class="hidden">
-                    <h2 class="do-hyeon-regular">🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표</h2>
+                    <h2 class="do-hyeon-regular">🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표
+                    </h2>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th class="do-hyeon-regular">Address</th>
                                 <th class="do-hyeon-regular">Hospital</th>
+                                <th class="do-hyeon-regular">Address</th>
+                                <th class="do-hyeon-regular">Tel</th>
+                                <th class="do-hyeon-regular">Link</th>
+                                <th class="do-hyeon-regular">응급실</th>
+                                <th class="do-hyeon-regular">수술실</th>
+                                <th class="do-hyeon-regular">입원실</th>
+                                <th class="do-hyeon-regular">구급차</th>
+                                <th class="do-hyeon-regular">MRI</th>
+                                <th class="do-hyeon-regular">인공호흡</th>
                             </tr>
                         </thead>
                         <tbody class="font-alt" id="infoCombined"></tbody>
@@ -826,7 +875,7 @@
     </header>
 
 
-    
+
 
     {% block message %}
     {% endblock message %}

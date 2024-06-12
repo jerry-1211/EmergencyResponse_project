@@ -168,17 +168,27 @@ def board():
         if request.method == 'POST':
             city = request.form.get('city')
             district = request.form.get('district')
-            info_address, info_hospital = DB.emergencyData(city, district)
+            emergency_data = DB.emergencyData(city, district)
+            print(emergency_data)
             return jsonify({
                 "user": user,
                 "city": city,
                 "district": district,
-                "info_address": info_address,
-                "info_hospital": info_hospital
+                "info_address": emergency_data["address"],
+                "info_hospital": emergency_data["hospital"],
+                "info_tel": emergency_data["tel"],
+                "info_hospital_link": emergency_data["hospital_link"],                
+                "info_hvamyn": emergency_data["hvamyn"],
+                "info_hvec": emergency_data["hvec"],
+                "info_hvgc": emergency_data["hvgc"],
+                "info_hvmriayn": emergency_data["hvmriayn"],
+                "info_hvoc": emergency_data["hvoc"],
+                "info_hvventiayn": emergency_data["hvventiayn"],
             })
         else:
             return render_template("board.html", user=user, city=None, district=None,
-                            info_address=None, info_hospital=None)
+                info_address=None, info_hospital=None,info_tel=None, info_hospital_link=None, 
+                info_hvamyn=None ,info_hvec=None ,info_hvgc=None , info_hvmriayn=None ,info_hvoc=None , info_hvventiayn=None)
     return user
 
         
