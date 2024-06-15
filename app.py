@@ -78,7 +78,7 @@ def stream_gen( src ):
                 out.write(frame)
                 fall_down_cnt += 1
                 print(fall_down_cnt)
-                if fall_down_cnt  > 1000:
+                if fall_down_cnt  > 1200:
                     print(f"{filename} {user}님 녹화완료")
                     out.release()
                     Storage.video_save(user=user,filename=filename)  # 녹화본 DB에 저장
