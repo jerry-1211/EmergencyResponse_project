@@ -2,6 +2,9 @@ import pandas as pd
 import time
 import datetime
 import os
+import cv2
+import numpy as np
+
 
 from flask import Flask,redirect,render_template,url_for,jsonify
 from flask import request,flash,session,abort
@@ -10,6 +13,7 @@ from flask import Response, stream_with_context
 from DB_handler import DBModule,Storage
 
 import warnings
+from ultralytics import YOLO
 
 from streamer import Streamer
 
@@ -18,41 +22,76 @@ warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 app.secret_key = "xcvbsdf@sdfvxcv"  # 아무렇게나 생성
+model = YOLO('best.pt') # yolo model 
 streamer = Streamer()
 DB = DBModule()
 Storage = Storage()
 
+page_move = False  # detect에서 board로 이동
+detected_status = False # 상태 감지
 #------------------------------ 함수  ------------------------------
 def stream_gen( src ):   
+    global page_move,detected_status
+    page_move = False
+    detected_status = False
+    
     try :
         user = get_user()
-        # 비디오 녹화와 종류를 위한 변수
-        start_time = time.time()  
-        recording = True
+
+       # 비디오 녹화와 종류를 위한 변수
+        initial_start_time = time.time()  
+        last_prediction_time = 0
+        fall_down_cnt = 0
 
         out,filename = streamer.get_filename()
         streamer.run(src)
     
         while True :
+            current_time = time.time()
             frame_byte,frame = streamer.bytescode()
-            # if 응급상황 : recording = True / out = streamer.get_filename()
+            
+            # 3초마다 이미지를 처리
+            if current_time - last_prediction_time >= 3:
+                last_prediction_time = current_time
 
-            if recording:  # 비디오 저장 (여기 recording에 조건 걸기)
+                # YOLO 모델에 넣기 전에 이미지를 resize
+                resized_image = cv2.resize(frame, (640, 640))
+                results = model(resized_image)
+
+                # 예측 결과에 대한 처리
+                detected = False
+                for result in results:
+                    for box in result.boxes:
+                        cls_id = int(box.cls)
+                        cls_name = model.names[cls_id]
+                        confidence = box.conf  # 객체의 확률 (신뢰도 점수)
+                        if cls_name == 'fall_down':  # 관심 객체 클래스 이름
+                            detected = True
+                            detected_status = True
+                            print(f'Class: {cls_name}, Confidence: {confidence}')
+                            
+                if not detected:
+                    detected_status = False
+
+            # 비디오 저장
+            if detected: 
                 out.write(frame)
-                if time.time() - start_time > 10:
+                fall_down_cnt += 1
+                print(fall_down_cnt)
+                if fall_down_cnt  > 1000:
                     print(f"{filename} {user}님 녹화완료")
-                    recording = False
                     out.release()
                     Storage.video_save(user=user,filename=filename)  # 녹화본 DB에 저장
                     Storage.delete_all_files_in_directory() # 로컬 녹화본에 삭제
+                    page_move = True
+                    streamer.stop()
+                    break  # Stop streaming after setting page_move
 
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame_byte + b'\r\n')
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame_byte + b'\r\n') 
                     
     except GeneratorExit :
         streamer.stop()
-        if recording:
-            out.release()
 
 
 # 로그인이 되지 않았을 경우 로그인 창으로 전환
@@ -77,7 +116,6 @@ def should_run_folium_map():
     return current_date > last_run_date
 
 #-----------------------------------------------------------------------
-
 
 @app.route("/")
 def index():
@@ -135,8 +173,9 @@ def logout():
 #------------------------------비디오 녹화 ------------------------------
 @app.route("/stream")
 def stream():
+    global page_move
+    page_move = False 
     src = request.args.get( 'src', default = 0, type = int )
-
     try :    
         return Response(
             stream_with_context( stream_gen( src ) ),
@@ -150,6 +189,19 @@ def detect():
     if isinstance(user, str): 
         return render_template("detect.html",user=user)
     return user  
+
+# board로 페이지 이동
+@app.route("/check_page_move")
+def check_page_move():
+    global page_move
+    return jsonify({"page_move": page_move})
+
+# 상태 전달
+@app.route("/check_detected_status")
+def check_detected_status():
+    global detected_status
+    return jsonify({"detected": detected_status})
+
 #-----------------------------------------------------------------------
 #------------------------------응급 상황판 ------------------------------
 

@@ -88,7 +88,54 @@
             margin-top: -5.5rem !important;
         }
     }
+
+    .blinking {
+        color: red;
+        animation: blinker 2s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
 </style>
+
+<script>
+
+    //  board로 페이지 이동
+    const user = "{{ user }}";
+    async function checkPageMove() {
+        while (true) {
+            const response = await fetch('/check_page_move?src=0');
+            const data = await response.json();
+            if (data.page_move) {
+                window.location.href = `/videolist/${user}`;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
+        }
+    }
+    checkPageMove();
+
+    // 상태 변화 
+    async function checkDetectedStatus() {
+        while (true) {
+            const response = await fetch('/check_detected_status');
+            const data = await response.json();
+            const statusElement = document.getElementById('status');
+            if (data.detected) {
+                statusElement.innerText = '응급상황 ⛑️';
+                statusElement.classList.add('blinking');
+            } else {
+                statusElement.innerText = '상태 감지 중 👀';
+                statusElement.classList.remove('blinking');
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
+        }
+    }
+    checkDetectedStatus();
+</script>
 
 <body id="page-top">
 
@@ -116,7 +163,7 @@
                 <div class="col-lg-6 move-left move-up">
                     <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-start">
-                        <h1 class="display-6 lh-1 mb-3 mt-4 nmt-0">상태 감지 중 👀</h1>
+                        <h1 id="status" class="display-6 lh-1 mb-3 mt-4 nmt-0">상태 감지 중 👀</h1>
                     </div>
                 </div>
 
