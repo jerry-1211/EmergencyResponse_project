@@ -124,10 +124,14 @@
             const response = await fetch('/check_detected_status');
             const data = await response.json();
             const statusElement = document.getElementById('status');
-            if (data.detected) {
-                statusElement.innerText = '응급상황 ⛑️';
+            if (data.detected == "alert") {
+                statusElement.innerText = '경고 🩺';
                 statusElement.classList.add('blinking');
-            } else {
+            } else if (data.detected == "emergency") {
+                statusElement.innerText = '응급상황 ⛑️';
+                statusElement.classList.remove('blinking');
+            }
+            else {
                 statusElement.innerText = '상태 감지 중 👀';
                 statusElement.classList.remove('blinking');
             }
