@@ -16,11 +16,12 @@ class DBModule :
 
 #----------------------------- 로그인 ------------------------------
 
-    def signin(self,name,_id_,pwd,phoneNumber):
+    def signin(self,name,_id_,pwd,phoneNumber,guardian_phoneNumber):
         informations = {
             "uname" : name,
             "pwd" : pwd,
-            "phoneNumber" : phoneNumber
+            "phoneNumber" : phoneNumber,
+            "guardian_phoneNumber" : guardian_phoneNumber
         } 
         if self.signin_verification(_id_):
             self.db.child("users").child(_id_).set(informations)
@@ -46,7 +47,11 @@ class DBModule :
             except :
                 return False
 #-----------------------------------------------------------------------
-            
+    def get_info(self,user):
+        users_info = self.db.child("users").child(user).get().val()
+        name = users_info["uname"]
+        g_ph = users_info["guardian_phoneNumber"]
+        return name,g_ph
 
 #----------------------- emergency 데이터 관리 --------------------------
 
@@ -158,5 +163,5 @@ class Storage :
         return urls,filenames
 
 # db = DBModule()
-# db.emergencyData("제주","제주시")
+# db.get_info("jihyun")
 

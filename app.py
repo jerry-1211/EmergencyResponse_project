@@ -21,7 +21,6 @@ warnings.filterwarnings("ignore")
 app = Flask(__name__)
 app.secret_key = "xcvbsdf@sdfvxcv"  # 아무렇게나 생성
 streamer = Streamer()
-detector = FallDetection()
 DB = DBModule()
 Storage = Storage()
 
@@ -29,11 +28,13 @@ page_move = False  # detect에서 board로 이동
 detected_status = "normal" # 상태 감지
 
 #------------------------------ 함수  ------------------------------
-def stream_gen( src ):   
+def stream_gen( src,user ):   
     global page_move,detected_status
     page_move = False
     detected_status = "normal"
-    
+
+    detector = FallDetection(user)
+
     try :
         user = get_user()
         
@@ -61,7 +62,6 @@ def stream_gen( src ):
                 except Exception as e:
                     logging.error(f"Error processing frame: {e}")
                     detect_frame = frame  # 예외가 발생하면 원본 프레임을 사용
-
 
               # 비디오 저장
             if detected_status != "normal": 
@@ -123,11 +123,13 @@ def should_run_folium_map():
 #-----------------------------------------------------------------------
 @app.route("/")
 def index():
-
     user = get_user()
     if isinstance(user, str): 
-        return render_template("index.html", user=user)
+        name,_ = DB.get_info(user)
+        return render_template("index.html", user=user,name=name)
     return user  
+
+
 #------------------------------회원 가입 ------------------------------
 @app.route("/signin")
 def signin():
@@ -140,7 +142,8 @@ def signin_done():
     uid = request.args.get("signin_id")
     pwd = request.args.get("signin_pwd")
     phoneNumber = request.args.get("signin_phoneNumber")
-    if DB.signin(name=name,_id_=uid,pwd=pwd,phoneNumber=phoneNumber):
+    guardian_phoneNumber = request.args.get("signin_guardian_phoneNumber")
+    if DB.signin(name=name,_id_=uid,pwd=pwd,phoneNumber=phoneNumber,guardian_phoneNumber=guardian_phoneNumber):
          return redirect(url_for("index"))
     else :
         flash("이미 존재하는 아이디입니다.")
@@ -173,15 +176,16 @@ def logout():
 
 #-----------------------------------------------------------------------
 
-#------------------------------비디오 녹화 ------------------------------
+#------------------------------  비디오  ------------------------------
 @app.route("/stream")
 def stream():
+    user = get_user()
     global page_move
     page_move = False 
     src = request.args.get( 'src', default = 0, type = int )
     try :    
         return Response(
-            stream_with_context( stream_gen( src ) ),
+            stream_with_context( stream_gen( src,user ) ),
             mimetype='multipart/x-mixed-replace; boundary=frame' )
     except Exception as e :
         pass
@@ -189,8 +193,9 @@ def stream():
 @app.route("/detect")
 def detect():
     user = get_user()
+    name,_ = DB.get_info(user)
     if isinstance(user, str): 
-        return render_template("detect.html",user=user)
+        return render_template("detect.html",user=user,name=name)
     return user  
 
 # board로 페이지 이동
@@ -271,11 +276,12 @@ def user_uid():
 # uid까지 가져옴
 @app.route("/videolist/<string:uid>")
 def video_list(uid):
+    name,_ = DB.get_info(uid)
     # 세션의 uid와 요청된 uid를 비교하여 일치하지 않으면 403 오류 반환
     if "uid" not in session or session["uid"] != uid:
         abort(403, description="Unauthorized access")
 
-    return render_template("videorecode.html", uid=uid)
+    return render_template("videorecode.html", uid=uid,name=name)
 #-----------------------------------------------------------------------
 
 if __name__ == "__main__":

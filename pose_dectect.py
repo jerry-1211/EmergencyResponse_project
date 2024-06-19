@@ -2,16 +2,25 @@ import cv2
 import mediapipe as mp
 import math
 from datetime import datetime, timedelta
+from DB_handler import DBModule
+from sms import SMS
+
+DB = DBModule()
+ms = SMS()
 
 class FallDetection:
-    def __init__(self):
+    def __init__(self,user):
+        self.user = user
+
         self.mp_pose = mp.solutions.pose
         self.pose = self.mp_pose.Pose()
         self.mp_drawing = mp.solutions.drawing_utils
+
         self.falling_time = None
         self.lying_time = None
         self.falling_state = False
         self.lying_state = False
+
         self.emergency_detected = False
         self.detected_status = "normal" # 상태 초기화
 
@@ -21,6 +30,10 @@ class FallDetection:
 
     def process_frame(self, frame):
         global detected_status
+        
+        # 메세지 보내는거는 한번만
+        emergency_message = True     
+        urgent_message = True
 
         frame = cv2.resize(frame, (480, 360))
 
@@ -75,13 +88,19 @@ class FallDetection:
 
             # 응급상황 감지
             if self.falling_state and self.lying_state and not self.emergency_detected:
+                print(self.user)
+                print(emergency_message)
                 print("--------------------------------")
                 print("응급상황")
                 print("--------------------------------")
                 cv2.putText(frame, 'Emergency Detected', (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
                 self.emergency_detected = True
                 self.detected_status = "emergency"  # 상태 업데이트
-
+                if emergency_message : 
+                    name,g_ph = DB.get_info(self.user)
+                    print(name,g_ph)
+                    ms.send_emergency(name,g_ph)
+                    emergency_message = False 
                     ####여기에 응급상황 경고 문자 보내기####
 
 
@@ -99,6 +118,7 @@ class FallDetection:
                     print("lying_state False")
                     self.emergency_detected = False
 
+                
             else :
                 # emergency 상태에서 바로 일어나지 못하는 경우
                 if (datetime.now() - self.lying_time).total_seconds() > 7:
@@ -107,6 +127,7 @@ class FallDetection:
                         ####여기에 응급상황 문자 보내기####
                     else : 
                         self.detected_status = "normal"
+                        emergency_message = True
 
 
         return frame

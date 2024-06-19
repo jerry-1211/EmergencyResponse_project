@@ -56,6 +56,7 @@
     @media (min-width: 992px) {
         .col-lg-6.move-left {
             justify-content: flex-start;
+            margin-left: 27px;
         }
 
         .col-lg-6.move-up {
@@ -74,6 +75,7 @@
     @media (min-width: 1200px) {
         .col-lg-6.move-left {
             justify-content: flex-start;
+            margin-left: 30px;
         }
 
         .col-lg-6.move-up {
@@ -89,9 +91,32 @@
         }
     }
 
-    .blinking {
-        color: red;
+
+    #status {
+        color: rgb(0, 0, 0);
+        animation: blinker 6s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    #status.blinking_alert {
+        color: rgb(173, 78, 78);
         animation: blinker 2s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    #status.blinking_emergency {
+        color: red;
+        animation: blinker 1s linear infinite;
     }
 
     @keyframes blinker {
@@ -101,44 +126,46 @@
     }
 </style>
 
-<script>
-
-    //  board로 페이지 이동
-    const user = "{{ user }}";
-    async function checkPageMove() {
-        while (true) {
-            const response = await fetch('/check_page_move?src=0');
-            const data = await response.json();
-            if (data.page_move) {
-                window.location.href = `/videolist/${user}`;
-                break;
+<script defer>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        //  board로 페이지 이동
+        const user = "{{ user }}";
+        async function checkPageMove() {
+            while (true) {
+                const response = await fetch('/check_page_move?src=0');
+                const data = await response.json();
+                if (data.page_move) {
+                    window.location.href = `/videolist/${user}`;
+                    break;
+                }
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
             }
-            await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
         }
-    }
-    checkPageMove();
+        checkPageMove();
 
-    // 상태 변화 
-    async function checkDetectedStatus() {
-        while (true) {
-            const response = await fetch('/check_detected_status');
-            const data = await response.json();
-            const statusElement = document.getElementById('status');
-            if (data.detected == "alert") {
-                statusElement.innerText = '경고 🩺';
-                statusElement.classList.add('blinking');
-            } else if (data.detected == "emergency") {
-                statusElement.innerText = '응급상황 ⛑️';
-                statusElement.classList.remove('blinking');
+        // 상태 변화 
+        async function checkDetectedStatus() {
+            while (true) {
+                const response = await fetch('/check_detected_status');
+                const data = await response.json();
+                const statusElement = document.getElementById('status');
+                if (data.detected == "alert") {
+                    statusElement.innerText = '위험 상태 감지 🔍';
+                    statusElement.classList.add('blinking_alert');
+                } else if (data.detected == "emergency") {
+                    statusElement.innerText = '응급상황 ⛑️';
+                    statusElement.classList.add('blinking_emergency');
+                }
+                else {
+                    statusElement.innerText = '상태 감지 중 👀';
+                    statusElement.classList.remove('blinking_alert');
+                    statusElement.classList.remove('blinking_emergency');
+                }
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
             }
-            else {
-                statusElement.innerText = '상태 감지 중 👀';
-                statusElement.classList.remove('blinking');
-            }
-            await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
         }
-    }
-    checkDetectedStatus();
+        checkDetectedStatus();
+    });
 </script>
 
 <body id="page-top">
@@ -186,7 +213,7 @@
             <div class="row gx-5 justify-content-center">
                 <div class="col-xl-8">
                     <div class="h2 fs-1 text-white mb-4">
-                        {{user}}님, <br>
+                        {{name}}님, <br>
                         현재 실시간 응급 상태를 모니터링 중입니다 🚨
                     </div>
                     <!-- <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" /> -->
