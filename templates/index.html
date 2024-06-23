@@ -1,0 +1,308 @@
+<style>
+    .mb-5.mt-3.mb-lg-0.text-center.text-lg-start .h5 {
+        font-weight: 400;
+        line-height: 1.5;
+    }
+
+    .mb-5.mb-lg-0.text-center.text-lg-start .display-1.lh-1.mb-3 {
+        padding-bottom: 10px;
+    }
+
+    .masthead .masthead-device-mockup .circle {
+        position: relative !important;
+    }
+
+
+    .highlight {
+        font-weight: bold;
+        color: #010320;
+        /* 강조 색상 */
+        font-size: 1.7rem;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+
+    /* 모바일 버전1 */
+    @media (max-width: 375px) {
+        div.table_result {
+            max-width: 350px;
+        }
+    }
+
+    /* 모바일 버전2 */
+    @media (max-width: 450px) {
+        #page-top header.masthead {
+            height: 107%;
+        }
+
+        div.table_result {
+            max-width: 430px;
+        }
+    }
+
+
+    @media (min-width: 460px) {
+        .masthead {
+            height: 100%;
+        }
+
+        .masthead .container.px-5 {
+            margin-top: -52px;
+        }
+
+        .col-lg-6.circle_mg {
+            margin-top: -35px;
+        }
+
+        .offset-1.mb-5.mt-3.mb-lg-0.text-center.text-lg-start {
+            margin-left: 0 !important;
+        }
+    }
+
+
+
+    @media (min-width: 576px) {
+        .masthead .container.px-5 {
+            margin-top: -47px;
+        }
+
+        .col-lg-6.circle_mg {
+            margin-top: -35px;
+        }
+
+        .offset-1.mb-5.mt-3.mb-lg-0.text-center.text-lg-start {
+            margin-left: 0 !important;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .masthead .container.px-5 {
+            margin-top: -47px;
+        }
+
+        .col-lg-6.circle_mg {
+            margin-top: -59px;
+        }
+
+        .offset-1.mb-5.mt-3.mb-lg-0.text-center.text-lg-start {
+            margin-left: 0 !important;
+        }
+    }
+
+
+    @media (min-width: 992px) {
+        .masthead {
+            height: 90%;
+        }
+
+        .masthead .container.px-5 {
+            margin-top: 125px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .masthead .container.px-5 {
+            margin-top: 125px;
+        }
+    }
+
+
+
+    /* 그라데이션 css  */
+    .masthead-device-mockup {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    #main-circle {
+        position: relative;
+        z-index: 1;
+    }
+
+    .animated-circle {
+        animation: colorChange 10s infinite alternate;
+    }
+
+    @keyframes colorChange {
+        0% {
+            fill: url(#circleGradient);
+        }
+
+        10% {
+            fill: url(#circleGradient2);
+        }
+
+        20% {
+            fill: url(#circleGradient3);
+        }
+
+        30% {
+            fill: url(#circleGradient4);
+        }
+
+        40% {
+            fill: url(#circleGradient2);
+        }
+
+        50% {
+            fill: url(#circleGradient);
+        }
+
+        60% {
+            fill: url(#circleGradient3);
+        }
+
+        70% {
+            fill: url(#circleGradient4);
+        }
+
+        80% {
+            fill: url(#circleGradient2);
+        }
+
+        90% {
+            fill: url(#circleGradient3);
+        }
+
+        100% {
+            fill: url(#circleGradient);
+        }
+    }
+
+    @keyframes gradientChange {
+        0% {
+            stop-color: #2937f0;
+        }
+
+        10% {
+            stop-color: #4b60f5;
+        }
+
+        20% {
+            stop-color: #6a76f7;
+        }
+
+        30% {
+            stop-color: #8a8ef9;
+        }
+
+        40% {
+            stop-color: #c851f2;
+        }
+
+        50% {
+            stop-color: #9f1ae2;
+        }
+
+        60% {
+            stop-color: #d86bf5;
+        }
+
+        70% {
+            stop-color: #e888f7;
+        }
+
+        80% {
+            stop-color: #c851f2;
+        }
+
+        90% {
+            stop-color: #6a76f7;
+        }
+
+        100% {
+            stop-color: #2937f0;
+        }
+    }
+
+    .gradient-start-color {
+        animation: gradientChange 40s infinite alternate;
+    }
+
+    .gradient-end-color {
+        animation: gradientChange 40s infinite alternate;
+        animation-delay: 20s;
+    }
+</style>
+
+<body id="page-top">
+
+    {% extends "base.html" %}
+
+
+
+    {% block content %}
+    <!-- Mashead header-->
+    <header class="masthead">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <!-- Mashead text and app badges-->
+                    <div class="offset-1 mb-5 mt-3 mb-lg-0 text-center text-lg-start">
+                        <h1 class="do-hyeon-regular display-1 lh-1 mb-3">CAPSTONE </h1>
+                        <p class="h5">
+                            Emergency Response는 <br />
+                            <span class="text-gradient highlight">{{name}}</span>
+                            님을 실시간으로 모니터링하며,</br>
+                            응급상황을 녹화하고,</br>
+                            알림을 보내드리는 서비스예요 !</br>
+                        </p>
+                        <p class="h5">
+                            실시간 응급 상황도 확인 가능해요.</br>
+                            어디서나 안전하게 지켜드릴게요 ✨</br>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 circle_mg">
+                    <!-- Masthead device mockup feature-->
+                    <div class="masthead-device-mockup">
+                        <svg class="circle animated-circle" id="main-circle" viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="circleGradient" gradientTransform="rotate(45)">
+                                    <stop class="gradient-start-color" offset="0%"></stop>
+                                    <stop class="gradient-end-color" offset="100%"></stop>
+                                </linearGradient>
+                                <linearGradient id="circleGradient2" gradientTransform="rotate(45)">
+                                    <stop offset="0%" stop-color="#4b60f5"></stop>
+                                    <stop offset="100%" stop-color="#c851f2"></stop>
+                                </linearGradient>
+                                <linearGradient id="circleGradient3" gradientTransform="rotate(45)">
+                                    <stop offset="0%" stop-color="#6a76f7"></stop>
+                                    <stop offset="100%" stop-color="#d86bf5"></stop>
+                                </linearGradient>
+                                <linearGradient id="circleGradient4" gradientTransform="rotate(45)">
+                                    <stop offset="0%" stop-color="#8a8ef9"></stop>
+                                    <stop offset="100%" stop-color="#e888f7"></stop>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="50" fill="url(#circleGradient)"></circle>
+                        </svg>
+
+                        <svg class="shape-1 d-none d-sm-block" viewBox="0 0 240.83 240.83"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03"
+                                transform="translate(120.42 -49.88) rotate(45)"></rect>
+                            <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03"
+                                transform="translate(-49.88 120.42) rotate(-45)"></rect>
+                        </svg><svg class="shape-2 d-none d-sm-block" viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="50"></circle>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    {% block message %}
+    {% endblock message %}
+
+
+    {% endblock %}
+
+
+</body>
