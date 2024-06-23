@@ -45,7 +45,7 @@ def stream_gen( src,user ):
         out,filename = streamer.get_filename()
         streamer.run(src)
 
-        frame_skip = 2  # 프레임 스킵 설정 (2는 매 2번째 프레임마다 처리)
+        frame_skip = 8  # 프레임 스킵 설정 (2는 매 2번째 프레임마다 처리)
         frame_count = 0
     
         while True :
@@ -69,7 +69,7 @@ def stream_gen( src,user ):
                 logging.info(f"Saved frame at {current_time}, detected_status: {detected_status}")
                 if detected_status == "urgent": 
                     print(f"{filename} {user}님 녹화완료")
-                    out.release()
+                    out.release() 
                     Storage.video_save(user=user,filename=filename)  # 녹화본 DB에 저장
                     Storage.delete_all_files_in_directory() # 로컬 녹화본에 삭제
                     page_move = True
@@ -223,6 +223,7 @@ def board():
         print("Folium map 업데이트 이미 완료하였습니다.")
 
     user = get_user()
+    name,_ = DB.get_info(user)
     city = ''
     if isinstance(user, str):
         if request.method == 'POST':
@@ -246,7 +247,7 @@ def board():
                 "info_hvventiayn": emergency_data["hvventiayn"],
             })
         else:
-            return render_template("board.html", user=user, city=None, district=None,
+            return render_template("board.html", user=user, name=name,city=None, district=None,
                 info_address=None, info_hospital=None,info_tel=None, info_hospital_link=None, 
                 info_hvamyn=None ,info_hvec=None ,info_hvgc=None , info_hvmriayn=None ,info_hvoc=None , info_hvventiayn=None)
     return user
@@ -285,4 +286,4 @@ def video_list(uid):
 #-----------------------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(port=5501,host="0.0.0.0",debug=True)
+    app.run(port=5503,host="0.0.0.0",debug=True)

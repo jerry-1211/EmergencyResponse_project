@@ -19,7 +19,7 @@ class Streamer :
         self.capture = None
         self.thread = None
         self.width = 640
-        self.height = 360
+        self.height = 480
         self.stat = True
         self.current_time = time.time() # 현재 시간 계산
         self.preview_time = time.time()

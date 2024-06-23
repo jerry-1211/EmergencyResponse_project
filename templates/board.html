@@ -32,6 +32,17 @@
         margin-top: 1.5rem !important;
     }
 
+    /*  */
+    .table-wrapper {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: auto;
+        /* 수평 스크롤바 추가 */
+        display: block;
+        /* 블록 요소로 변환 */
+    }
+
+    /*  */
 
     .row {
         display: flex;
@@ -105,7 +116,7 @@
 
     #resultSection {
         margin-top: 60px;
-        width: 93%;
+        width: 83%;
     }
 
     .table_result {
@@ -206,7 +217,7 @@
             <iframe class="emergencyMap" id="emergencyMap" src="{{ url_for('Emergencymap') }}"></iframe>
             <div class="container mt-5">
                 <form id="myForm" action="/board" method="POST">
-                    <label class="region-select-label">🔍 알고 싶은 지역을 선택해 주세요</label>
+                    <label class="region-select-label">지역을 선택해 주세요 🔍</label>
                     <div class="center">
                         <div class="row mb-3 w-100 justify-content-center">
                             <div class="col-md-6">
@@ -850,23 +861,25 @@
                 <div id="resultSection" class="hidden">
                     <h2 class="do-hyeon-regular">🚨 현재 <span id="city"></span> <span id="district"> </span>지역의 응급 상황표
                     </h2>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th class="do-hyeon-regular">Hospital</th>
-                                <th class="do-hyeon-regular">Address</th>
-                                <th class="do-hyeon-regular">Tel</th>
-                                <th class="do-hyeon-regular">Link</th>
-                                <th class="do-hyeon-regular">응급실</th>
-                                <th class="do-hyeon-regular">수술실</th>
-                                <th class="do-hyeon-regular">입원실</th>
-                                <th class="do-hyeon-regular">구급차</th>
-                                <th class="do-hyeon-regular">MRI</th>
-                                <th class="do-hyeon-regular">인공호흡</th>
-                            </tr>
-                        </thead>
-                        <tbody class="font-alt" id="infoCombined"></tbody>
-                    </table>
+                    <div class="table-wrapper">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="do-hyeon-regular">Hospital</th>
+                                    <th class="do-hyeon-regular">Address</th>
+                                    <th class="do-hyeon-regular">Tel</th>
+                                    <th class="do-hyeon-regular">Link</th>
+                                    <th class="do-hyeon-regular">응급실</th>
+                                    <th class="do-hyeon-regular">수술실</th>
+                                    <th class="do-hyeon-regular">입원실</th>
+                                    <th class="do-hyeon-regular">구급차</th>
+                                    <th class="do-hyeon-regular">MRI</th>
+                                    <th class="do-hyeon-regular">인공호흡</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-alt" id="infoCombined"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -890,7 +903,7 @@
             <div class="row gx-5 justify-content-center">
                 <div class="col-xl-8">
                     <div class="h2 fs-1 text-white mb-4">
-                        {{user}}님을 위한<br>
+                        {{name}}님을 위한<br>
                         응급상황 발생 시 대응요령 🧐
                     </div>
                     <!-- <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem" /> -->
@@ -966,7 +979,7 @@
                                 <!-- Feature item-->
                                 <div class="text-center">
                                     <i class="bi-heart-pulse icon-feature text-gradient d-block mb-3"></i>
-                                    <h3 class="font-alt">5. 자동 심장 충격기 (AED) 사용법</h3>
+                                    <h3 class="font-alt">5. 자동 심장 충격기 (AED)</h3>
                                     <p class="do-hyeon-regular text-muted mb-0">전원 켜기, 패드 부착, 심전도 분석 중 접촉 금지</br>
                                         심장 충격 필요 시 버튼 누르고 심폐소생술 재개</p>
                                 </div>

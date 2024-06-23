@@ -12,9 +12,6 @@
         position: relative !important;
     }
 
-    .masthead {
-        height: 90%;
-    }
 
     .highlight {
         font-weight: bold;
@@ -25,10 +22,30 @@
         border-radius: 4px;
     }
 
+    /* 모바일 버전1 */
+    @media (max-width: 375px) {
+        div.table_result {
+            max-width: 350px;
+        }
+    }
 
+    /* 모바일 버전2 */
+    @media (max-width: 450px) {
+        #page-top header.masthead {
+            height: 107%;
+        }
+
+        div.table_result {
+            max-width: 430px;
+        }
+    }
 
 
     @media (min-width: 460px) {
+        .masthead {
+            height: 100%;
+        }
+
         .masthead .container.px-5 {
             margin-top: -52px;
         }
@@ -64,7 +81,7 @@
         }
 
         .col-lg-6.circle_mg {
-            margin-top: -35px;
+            margin-top: -59px;
         }
 
         .offset-1.mb-5.mt-3.mb-lg-0.text-center.text-lg-start {
@@ -74,6 +91,10 @@
 
 
     @media (min-width: 992px) {
+        .masthead {
+            height: 90%;
+        }
+
         .masthead .container.px-5 {
             margin-top: 125px;
         }
@@ -224,12 +245,12 @@
                             Emergency Response는 <br />
                             <span class="text-gradient highlight">{{name}}</span>
                             님을 실시간으로 모니터링하며,</br>
-                            위급 상황이 발생하면 응급상황을 녹화하고,</br>
-                            즉시 알림을 보내드리는 스마트한 서비스예요 !</br>
+                            응급상황을 녹화하고,</br>
+                            알림을 보내드리는 서비스예요 !</br>
                         </p>
                         <p class="h5">
-                            실시간 응급 병동도 지도로 확인 가능해요.</br>
-                            언제 어디서나 안전하게 지켜드릴게요 🛡️</br>
+                            실시간 응급 상황도 확인 가능해요.</br>
+                            어디서나 안전하게 지켜드릴게요 ✨</br>
                         </p>
                     </div>
                 </div>

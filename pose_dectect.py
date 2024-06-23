@@ -35,7 +35,7 @@ class FallDetection:
         emergency_message = True     
         urgent_message = True
 
-        frame = cv2.resize(frame, (480, 360))
+        frame = cv2.resize(frame, (640, 480))
 
         # Mediapipe는 RGB 이미지를 사용하므로 BGR에서 RGB로 변환
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -86,12 +86,14 @@ class FallDetection:
                     elif (datetime.now() - self.lying_time).total_seconds() > 0.4:
                         self.lying_state = True
 
+            # print(shoulder_hip_diff)
+
             # 응급상황 감지
             if self.falling_state and self.lying_state and not self.emergency_detected:
-                print(self.user)
-                print(emergency_message)
                 print("--------------------------------")
                 print("응급상황")
+                print(self.user)
+                print(emergency_message)
                 print("--------------------------------")
                 cv2.putText(frame, 'Emergency Detected', (50, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
                 self.emergency_detected = True
@@ -101,18 +103,16 @@ class FallDetection:
                     print(name,g_ph)
                     ms.send_emergency(name,g_ph)
                     emergency_message = False 
-                    ####여기에 응급상황 경고 문자 보내기####
-
 
             if not (self.detected_status == "emergency"):
                 # 3초 후 상태 초기화 
-                if self.falling_time and (datetime.now() - self.falling_time).total_seconds() > 3:
+                if self.falling_time and (datetime.now() - self.falling_time).total_seconds() > 4:
                     self.falling_state = False
                     self.falling_time = None
                     self.detected_status = "normal"
                     print("falling_state False")
 
-                if self.lying_time and (datetime.now() - self.lying_time).total_seconds() > 3:
+                if self.lying_time and (datetime.now() - self.lying_time).total_seconds() > 4:
                     self.lying_state = False
                     self.lying_time = None
                     print("lying_state False")
@@ -121,10 +121,11 @@ class FallDetection:
                 
             else :
                 # emergency 상태에서 바로 일어나지 못하는 경우
-                if (datetime.now() - self.lying_time).total_seconds() > 7:
-                    if shoulder_hip_diff < 0.1:
-                        self.detected_status = "urgent"
-                        ####여기에 응급상황 문자 보내기####
+                if (datetime.now() - self.lying_time).total_seconds() > 6:
+                    if shoulder_hip_diff < 0.4:
+                        self.detected_status = "urgent" 
+                        name,g_ph = DB.get_info(self.user)
+                        ms.send_urgent(name,g_ph)
                     else : 
                         self.detected_status = "normal"
                         emergency_message = True
